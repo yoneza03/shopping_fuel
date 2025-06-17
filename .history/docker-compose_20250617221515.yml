@@ -12,8 +12,7 @@ services:
     # 同期ファイルの指定
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d
-      - C:/Users/7064t/app/public:/var/www/html/public
-      # - ./app/public:/var/www/html/public
+      - ./app/public:/var/www/html/public
 
     # 使用ポートの指定
     ports:

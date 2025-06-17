@@ -12,9 +12,7 @@ services:
     # 同期ファイルの指定
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d
-      - C:/Users/7064t/app/public:/var/www/html/public
-      # - ./app/public:/var/www/html/public
-
+      - ./app/public:/var/www/html
     # 使用ポートの指定
     ports:
       - "80:80"
@@ -30,7 +28,7 @@ services:
     ###############################################################
     
     # どれを使ってビルド(コンテナ立ち上げを行うか)
-    build: 
+    build:
       # ディレクトリの指定
       context: ./
       # 使用するDockerfile名の指定
