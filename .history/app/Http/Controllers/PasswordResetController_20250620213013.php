@@ -22,15 +22,18 @@ class PasswordResetController extends Controller
         $status = Password::sendResetLink(
             ['email' => $request->email]
         );
-        \Log::info('パスワードリセットリンク送信処理を開始');
+        \Log::info('メール送信処理を開始します');
 
-        $status = Password::sendResetLink(['email' => $request->email]);
+        \Mail::send('auth.password_reset_email', ['resetUrl' => $resetUrl], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject('パスワードリセットリンク');
+        });
 
-        \Log::info('送信ステータス: ' . $status);
-
+        \Log::info('メール送信処理が完了しました');
         return $status === Password::RESET_LINK_SENT
             ? back()->with('success', 'パスワードリセットリンクを送信しました！')
-            : back()->withErrors(['email' => __($status)]);    }  
+            : back()->withErrors(['email' => __($status)]);
+    }  
 
     public function showResetForm($token)
     {
