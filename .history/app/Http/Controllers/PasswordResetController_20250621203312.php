@@ -15,24 +15,29 @@ class PasswordResetController extends Controller
         return view('auth.password_reset_request');
     }
 
+    // public function sendResetLink(Request $request)
+    // {
+    //     $request->validate(['email' => 'required|email|exists:users,email']);
+
+    //     \Log::info('パスワードリセットリンク送信処理を開始');
+
+    //     $status = Password::sendResetLink(['email' => $request->email]);
+
+    //     \Log::info('送信ステータス: ' . $status);
+
+    //     return $status === Password::RESET_LINK_SENT
+    //         ? back()->with('success', 'パスワードリセットリンクを送信しました！')
+    //         : back()->withErrors(['email' => __($status)]);   
+    // }  
+
     public function sendResetLink(Request $request)
     {
-        $request->validate(['email' => 'required|email|exists:users,email']);
+        \Log::info('【DEBUG】sendResetLink メソッドは呼ばれました');
 
-        // 🔹 トークンを生成
-        $token = Password::createToken(User::where('email', $request->email)->first());
+        $status = Password::sendResetLink(['email' => $request->email]);
 
-        // 🔹 パスワードリセットリンクを作成
-        $resetUrl = route('password.reset.form', ['token' => $token, 'email' => $request->email]);
-
-        // 🔹 メール送信（Mailファサードを利用）
-        \Mail::send('auth.password_reset_email', ['resetUrl' => $resetUrl], function ($message) use ($request) {
-            $message->to($request->email);
-            $message->subject('パスワードリセットリンク');
-        });        
-        return back()->with('success', 'パスワードリセットリンクを送信しました！');
+        \Log::info('【DEBUG】パスワードリセット送信ステータス: ' . $status);
     }
-
 
     public function showResetForm($token)
     {

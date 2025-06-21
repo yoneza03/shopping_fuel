@@ -8,11 +8,11 @@ use App\Http\Controllers\SharedController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PasswordResetController;
 
-// use App\Models\User;
+use App\Models\User;
 
-// Route::get('/test-user', function () {
-//     return User::first();
-// });
+Route::get('/test-user', function () {
+    return User::first();
+});
 
 Route::get('/', function () {
     return view('home');

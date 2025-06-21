@@ -15,6 +15,21 @@ class PasswordResetController extends Controller
         return view('auth.password_reset_request');
     }
 
+    // public function sendResetLink(Request $request)
+    // {
+    //     $request->validate(['email' => 'required|email|exists:users,email']);
+
+    //     // \Log::info('パスワードリセットリンク送信処理を開始');
+
+    //     $status = Password::sendResetLink(['email' => $request->email]);
+
+    //     // \Log::info('送信ステータス: ' . $status);
+
+    //     return $status === Password::RESET_LINK_SENT
+    //         ? back()->with('success', 'パスワードリセットリンクを送信しました！')
+    //         : back()->withErrors(['email' => __($status)]);   
+    // }  
+
     public function sendResetLink(Request $request)
     {
         $request->validate(['email' => 'required|email|exists:users,email']);
@@ -33,7 +48,7 @@ class PasswordResetController extends Controller
         return back()->with('success', 'パスワードリセットリンクを送信しました！');
     }
 
-
+    
     public function showResetForm($token)
     {
         return view('auth.password_reset', compact('token'));
