@@ -69,10 +69,6 @@
                 <img src="{{ asset('images/history.png') }}" alt="履歴" width="48">
                 <div class="small">履歴一覧</div>
             </a>
-            <a href="{{ route('admin') }}" class="text-center text-decoration-none">
-                <button type="button" id="delete" class="btn btn-danger">管理者ページ</button>
-            </a>
-
         </div>
     </div>
 </div>

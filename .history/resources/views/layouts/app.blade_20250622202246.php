@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
-    @include('layouts.header')  
+    @include('layouts.header')  ヘッダーを読み込み
 
     {{-- ホーム画面の場合のみ navbar を読み込む --}}
     @if(Auth::check() && request()->routeIs('home'))
@@ -22,10 +22,9 @@
     <div class="container">
         @yield('content')  {{-- 各ページの内容をここに埋め込む --}}
     </div>
-    
-    @yield('scripts')
 
-    @include('layouts.footer')  
+    @include('layouts.footer')  フッターを読み込み
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

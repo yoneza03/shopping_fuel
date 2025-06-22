@@ -8,8 +8,16 @@ use App\Http\Controllers\SharedController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PasswordResetController;
 
+// use App\Models\User;
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Route::get('/test-user', function () {
+//     return User::first();
+// });
+
+// Route::get('/', function () {
+//     return view('home');
+// });
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -34,23 +42,3 @@ Route::post('/password-reset', [PasswordResetController::class, 'sendResetLink']
 
 Route::get('/password-reset/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset.form');
 Route::post('/password-reset/{token}', [PasswordResetController::class, 'resetPassword'])->name('password.reset.complete');
-
-Route::get('/camera', function () {
-    return 'カメラ起動処理はここに実装予定です';
-})->name('camera.start');
-
-Route::get('/shopping', function () {
-    return '買い物データ処理はここに実装予定です';
-})->name('shopping.entry');
-
-Route::get('/fuel', function () {
-    return '燃費記録処理はここに実装予定です';
-})->name('fuel.entry');
-
-Route::get('/history', function () {
-    return '履歴一覧はここに実装予定です';
-})->name('history');
-
-Route::get('/admin', function () {
-    return '管理者画面はここに実装予定です';
-})->name('admin');

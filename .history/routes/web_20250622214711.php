@@ -50,7 +50,3 @@ Route::get('/fuel', function () {
 Route::get('/history', function () {
     return '履歴一覧はここに実装予定です';
 })->name('history');
-
-Route::get('/admin', function () {
-    return '管理者画面はここに実装予定です';
-})->name('admin');

@@ -51,7 +51,7 @@
             <!-- 計算結果表示 -->
             <div id="result" class="mt-3"></div>
         </form>
-        <!-- ボタン群：カメラ／買い物／燃費／履歴 -->
+        <!-- 📸 ボタン群：カメラ／買い物／燃費／履歴 -->
         <div class="d-flex justify-content-around align-items-center mt-4" id="icon-button-group">
             <a href="{{ route('camera.start') }}" class="text-center text-decoration-none">
                 <img src="{{ asset('images/camera.png') }}" alt="カメラ" width="48">
@@ -69,10 +69,6 @@
                 <img src="{{ asset('images/history.png') }}" alt="履歴" width="48">
                 <div class="small">履歴一覧</div>
             </a>
-            <a href="{{ route('admin') }}" class="text-center text-decoration-none">
-                <button type="button" id="delete" class="btn btn-danger">管理者ページ</button>
-            </a>
-
         </div>
     </div>
 </div>

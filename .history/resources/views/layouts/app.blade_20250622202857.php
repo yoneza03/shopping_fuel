@@ -22,8 +22,6 @@
     <div class="container">
         @yield('content')  {{-- 各ページの内容をここに埋め込む --}}
     </div>
-    
-    @yield('scripts')
 
     @include('layouts.footer')  
     <!-- Bootstrap JS -->

@@ -1,0 +1,10 @@
+.logo {
+    width: 120px;
+    height: auto;
+}
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}

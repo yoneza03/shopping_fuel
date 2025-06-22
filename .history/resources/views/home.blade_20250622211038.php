@@ -51,29 +51,6 @@
             <!-- 計算結果表示 -->
             <div id="result" class="mt-3"></div>
         </form>
-        <!-- ボタン群：カメラ／買い物／燃費／履歴 -->
-        <div class="d-flex justify-content-around align-items-center mt-4" id="icon-button-group">
-            <a href="{{ route('camera.start') }}" class="text-center text-decoration-none">
-                <img src="{{ asset('images/camera.png') }}" alt="カメラ" width="48">
-                <div class="small">レシート撮影</div>
-            </a>
-            <a href="{{ route('shopping.entry') }}" class="text-center text-decoration-none">
-                <img src="{{ asset('images/shopping.png') }}" alt="買い物" width="48">
-                <div class="small">買い物データ</div>
-            </a>
-            <a href="{{ route('fuel.entry') }}" class="text-center text-decoration-none">
-                <img src="{{ asset('images/fuel.png') }}" alt="燃費" width="48">
-                <div class="small">燃費記録</div>
-            </a>
-            <a href="{{ route('history') }}" class="text-center text-decoration-none">
-                <img src="{{ asset('images/history.png') }}" alt="履歴" width="48">
-                <div class="small">履歴一覧</div>
-            </a>
-            <a href="{{ route('admin') }}" class="text-center text-decoration-none">
-                <button type="button" id="delete" class="btn btn-danger">管理者ページ</button>
-            </a>
-
-        </div>
     </div>
 </div>
 @endsection
