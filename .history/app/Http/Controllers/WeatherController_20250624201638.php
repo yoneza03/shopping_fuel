@@ -42,7 +42,7 @@ class WeatherController extends Controller
         }
 
 
-        $weatherType = $currentData['weather'][0]['main']; // 例: "Clear", "Rain", etc.
+        $weatherType = $data['weather'][0]['main']; // 例: "Clear", "Rain", etc.
 
         switch ($weatherType) {
             case 'Clear':
@@ -59,8 +59,8 @@ class WeatherController extends Controller
                 break;
         }
 
-        $condition = $currentData['weather'][0]['main'];
-        $precip = $currentData['clouds']['all']; // 雲の量で代用（％）
+        $condition = $data['weather'][0]['main'];
+        $precip = $data['clouds']['all']; // 雲の量で代用（％）
 
         if ($condition === 'Clear' && $precip < 20) {
             $advice = '今日はお出かけ日和です！洗車もOK 🚗✨';
@@ -73,7 +73,7 @@ class WeatherController extends Controller
         }
 
         return view('weather', [
-            'weather' => $currentData,
+            'weather' => $data,
             'dailyForecasts' => $dailyForecasts,
             'bgClass' => $bgClass,
             'advice' => $advice

@@ -5,7 +5,6 @@
 @section('content')
 <div class="d-flex">
     <div id="comparison-wrapper">
-    <!-- 比較計算フォーム -->
         <form id="comparison-form">
             <div class="d-flex justify-content-between flex-wrap gap-3">
                 <!-- 左側入力 -->
@@ -52,15 +51,6 @@
             <!-- 計算結果表示 -->
             <div id="result" class="mt-3"></div>
         </form>
-        <div>
-            @include('components.weather', [
-                'weather' => $weather,
-                'dailyForecasts' => $dailyForecasts,
-                'bgClass' => $bgClass,
-                'advice' => $advice
-            ])
-        </div>
-
         <!-- ボタン群：カメラ／買い物／燃費／履歴 -->
         <div class="d-flex justify-content-around align-items-center mt-4" id="icon-button-group">
             <a href="{{ route('camera.start') }}" class="text-center text-decoration-none">
@@ -79,9 +69,9 @@
                 <img src="{{ asset('images/history.png') }}" alt="履歴" width="48">
                 <div class="small">履歴一覧</div>
             </a>
-            <a href="{{ route('admin') }}" class="text-center text-decoration-none">
+            {{-- <a href="{{ route('admin') }}" class="text-center text-decoration-none">
                 <button type="button" id="delete" class="btn btn-danger">管理者ページ</button>
-            </a>
+            </a> --}}
 
         </div>
     </div>

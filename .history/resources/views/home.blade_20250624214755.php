@@ -53,12 +53,7 @@
             <div id="result" class="mt-3"></div>
         </form>
         <div>
-            @include('components.weather', [
-                'weather' => $weather,
-                'dailyForecasts' => $dailyForecasts,
-                'bgClass' => $bgClass,
-                'advice' => $advice
-            ])
+            @include('components.weather')
         </div>
 
         <!-- ボタン群：カメラ／買い物／燃費／履歴 -->

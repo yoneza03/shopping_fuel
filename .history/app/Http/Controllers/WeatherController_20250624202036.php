@@ -59,8 +59,8 @@ class WeatherController extends Controller
                 break;
         }
 
-        $condition = $currentData['weather'][0]['main'];
-        $precip = $currentData['clouds']['all']; // 雲の量で代用（％）
+        $condition = $data['weather'][0]['main'];
+        $precip = $data['clouds']['all']; // 雲の量で代用（％）
 
         if ($condition === 'Clear' && $precip < 20) {
             $advice = '今日はお出かけ日和です！洗車もOK 🚗✨';
