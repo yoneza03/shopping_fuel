@@ -6,7 +6,7 @@
 .form-section {
     display: flex;
     flex-direction: column;
-    min-width: 250px; /* ここで幅を指定 */
+    min-width: 260px; /* ここで幅を指定 */
     flex: 1; /* 横に並んだ際に均等に伸びる */
 }
 

@@ -1,12 +1,12 @@
 .logo {
-    width: 65px;
+    width: 100px;
     height: auto;
 }
 
 .form-section {
     display: flex;
     flex-direction: column;
-    min-width: 250px; /* ここで幅を指定 */
+    min-width: 300px; /* ここで幅を指定 */
     flex: 1; /* 横に並んだ際に均等に伸びる */
 }
 
@@ -24,20 +24,6 @@
   background-color: #f9f9f9;
 }
 
-.button-section {
-  width: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: center;
-}
-
-#result {
-  font-size: 1.1rem;
-  padding: 0.5rem;
-  background: #fef9e7;
-  border-radius: 5px;
-}
 
 .bg-sunny {
     background-color: #ffe57f; /* 明るい黄色 */

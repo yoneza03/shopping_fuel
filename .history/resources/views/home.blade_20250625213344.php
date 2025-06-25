@@ -3,8 +3,7 @@
 @section('title', 'ホーム画面')
 
 @section('content')
-{{-- <div class="d-flex flex-wrap gap-4 align-items-start"> --}}
-<div class="d-flex">
+<div class="d-flex flex-wrap gap-4 align-items-start">
     <!-- 比較計算フォーム -->
     <div id="comparison-wrapper" class="flex-grow-1">
         <form id="comparison-form">
@@ -25,7 +24,7 @@
 
                 <!-- 計算ボタン -->
                 <div class="button-section">
-                    <button type="button" id="calculate" class="btn btn-primary">計算</button>
+                    <button type="button" class="btn btn-primary">計算</button>
                 </div>
 
                 <!-- 右側入力 -->
@@ -42,21 +41,20 @@
                     </select>
                 </div>
             
+                <!-- 操作ボタン -->
+                <div class="w-100 mt-3 text-center">
+                    <button type="button" class="btn btn-secondary me-2">クリア</button>
+                    <button type="button" class="btn btn-success me-2">登録</button>
+                    <button type="button" class="btn btn-danger">削除</button>
+                </div>
+
+                <!-- 計算結果表示 -->
+                <div id="result" class="mt-3"></div>
             </div>       
         </form>
-        <!-- 操作ボタン -->
-        <div class="text-center mt-3">
-            <button type="button" class="btn btn-secondary me-2">クリア</button>
-            <button type="button" class="btn btn-success me-2">登録</button>
-            <button type="button" class="btn btn-danger">削除</button>
-        </div>
-
-        <!-- 計算結果表示 -->
-        <div id="result" class="mt-3"></div>
-
 
         <!-- ボタン群：カメラ／買い物／燃費／履歴 -->
-        <div class="mt-4 w-100 d-flex justify-content-around align-items-center" id="icon-button-group">
+        <div class="d-flex justify-content-around align-items-center mt-4" id="icon-button-group">
             <a href="{{ route('camera.start') }}" class="text-center text-decoration-none">
                 <img src="{{ asset('images/camera.png') }}" alt="カメラ" width="48">
                 <div class="small">レシート撮影</div>

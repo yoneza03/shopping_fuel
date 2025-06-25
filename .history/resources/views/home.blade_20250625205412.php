@@ -3,12 +3,11 @@
 @section('title', 'ホーム画面')
 
 @section('content')
-{{-- <div class="d-flex flex-wrap gap-4 align-items-start"> --}}
-<div class="d-flex">
+<div class="d-flex flex-wrap gap-4 align-items-start">
     <!-- 比較計算フォーム -->
-    <div id="comparison-wrapper" class="flex-grow-1">
+    <div id="comparison-wrapper">
         <form id="comparison-form">
-            <div class="d-flex justify-content-between gap-4">
+            <div class="d-flex justify-content-between gap-5">
                 <!-- 左側入力 -->
                 <div class="form-section">
                     <input type="number" id="price_left" class="form-control mb-2" placeholder="価格">
@@ -24,7 +23,7 @@
                 </div>
 
                 <!-- 計算ボタン -->
-                <div class="button-section">
+                <div class="d-flex align-items-center justify-content-center">
                     <button type="button" id="calculate" class="btn btn-primary">計算</button>
                 </div>
 
@@ -42,21 +41,20 @@
                     </select>
                 </div>
             
+                <!-- 操作ボタン -->
+                <div class="text-center mt-3">
+                    <button type="button" id="clear" class="btn btn-secondary">クリア</button>
+                    <button type="button" id="register" class="btn btn-success">登録</button>
+                    <button type="button" id="delete" class="btn btn-danger">削除</button>
+                </div>
+
+                <!-- 計算結果表示 -->
+                <div id="result" class="mt-3"></div>
             </div>       
         </form>
-        <!-- 操作ボタン -->
-        <div class="text-center mt-3">
-            <button type="button" class="btn btn-secondary me-2">クリア</button>
-            <button type="button" class="btn btn-success me-2">登録</button>
-            <button type="button" class="btn btn-danger">削除</button>
-        </div>
-
-        <!-- 計算結果表示 -->
-        <div id="result" class="mt-3"></div>
-
 
         <!-- ボタン群：カメラ／買い物／燃費／履歴 -->
-        <div class="mt-4 w-100 d-flex justify-content-around align-items-center" id="icon-button-group">
+        <div class="d-flex justify-content-around align-items-center mt-4" id="icon-button-group">
             <a href="{{ route('camera.start') }}" class="text-center text-decoration-none">
                 <img src="{{ asset('images/camera.png') }}" alt="カメラ" width="48">
                 <div class="small">レシート撮影</div>
@@ -77,15 +75,16 @@
                 <button type="button" id="delete" class="btn btn-danger">管理者ページ</button>
             </a>
         </div>
-    </div>
-    <!-- 天気API -->
-    <div>
-        @include('components.weather', [
-            'weather' => $weather,
-            'dailyForecasts' => $dailyForecasts,
-            'bgClass' => $bgClass,
-            'advice' => $advice
-        ])
+        
+            <!-- 天気API -->
+        <div>
+            @include('components.weather', [
+                'weather' => $weather,
+                'dailyForecasts' => $dailyForecasts,
+                'bgClass' => $bgClass,
+                'advice' => $advice
+            ])
+        </div>
     </div>
 </div>
 @endsection
