@@ -49,6 +49,10 @@ Route::get('/camera', function () {
     return 'カメラ起動処理はここに実装予定です';
 })->name('camera.start');
 
+Route::get('/shopping', function () {
+    return '買い物データ処理はここに実装予定です';
+})->name('shopping.entry');
+
 Route::get('/fuel', function () {
     return '燃費記録処理はここに実装予定です';
 })->name('fuel.entry');
