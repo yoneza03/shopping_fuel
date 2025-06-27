@@ -9,8 +9,7 @@ class ShoppingController extends Controller
     // 買い物データ入力ページ
     public function entry()
     {
-        $data = session()->get('shopping');
-        return view('shopping_entry', compact('data'));
+        return view('shopping_entry');
     }
 
     // 確認画面
