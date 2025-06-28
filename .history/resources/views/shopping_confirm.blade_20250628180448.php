@@ -37,7 +37,8 @@
       <button type="submit" class="btn btn-success">登録</button>
     </form>
 
-    <form action="{{ route('shopping.entry') }}" method="GET">
+    <form action="{{ route('shopping.entry') }}" method="POST">
+        @csrf
         <button type="submit" class="btn btn-secondary">修正</button>
     </form>
 

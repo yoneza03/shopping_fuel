@@ -7,30 +7,22 @@ use Illuminate\Http\Request;
 class ShoppingController extends Controller
 {
     // 買い物データ入力ページ
-    public function entry(Request $request)
+    public function entry()
     {
         $data = session()->get('shopping');
-        return view('shopping_entry', compact('data'));   
+        // dd($data);
+        return view('shopping_entry', compact('data'));
     }
-    
+
+
     // 確認画面
     public function confirm(Request $request)
     {
+        // 入力内容をセッションに保存
         $data = $request->except('receipt');
-        session()->put('shopping', $data); 
 
-        \Log::info('セッションに保存', ['data' => $data]);
-
-        //  セッションの代わりに flash data（1リクエスト限定）を with() で送る
-        return redirect()->route('shopping.confirm.view');
-    }
-
-    //確認画面の表示専用ページ
-    public function confirmView()
-    {
-        // flashデータ（with）から取得
-        $data = session()->get('shopping');
-        return view('shopping_confirm', compact('data'));
+        session()->put('shopping', $data);
+        return view('shopping_confirm',['data' => $request->all()]);
     }
 
     // データ登録処理

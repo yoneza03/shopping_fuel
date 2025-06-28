@@ -37,10 +37,12 @@
       <button type="submit" class="btn btn-success">登録</button>
     </form>
 
-    <form action="{{ route('shopping.entry') }}" method="GET">
+    <form action="{{ route('shopping.entry') }}" method="POST">
+        @csrf
+        <input type="hidden" name="_repair" value="1">
         <button type="submit" class="btn btn-secondary">修正</button>
     </form>
-
+    
     <form action="{{ route('shopping.entry') }}" method="GET" onsubmit="return confirm('本当に削除しますか？');">
       @php session()->forget('shopping'); @endphp
       <button type="submit" class="btn btn-danger">削除</button>

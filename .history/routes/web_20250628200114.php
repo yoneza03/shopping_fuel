@@ -41,8 +41,8 @@ Route::get('/weather', [WeatherController::class, 'fetch'])->name('weather');
 
 Route::middleware(['web'])->group(function () {
     Route::match(['get', 'post'], '/shopping-entry', [ShoppingController::class, 'entry'])->name('shopping.entry');
+    Route::post('/shopping-confirm', [ShoppingController::class, 'confirm'])->name('shopping.confirm');
 });
-Route::post('/shopping-confirm', [ShoppingController::class, 'confirm'])->name('shopping.confirm');
 Route::get('/shopping-confirm/view', [ShoppingController::class, 'confirmView'])->name('shopping.confirm.view');
 
 Route::post('/shopping-store', [ShoppingController::class, 'store'])->name('shopping.store');

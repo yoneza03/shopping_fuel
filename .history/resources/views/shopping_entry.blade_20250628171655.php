@@ -7,26 +7,20 @@
 <div class="container">
 
   <h2 class="mb-4">買い物データ入力</h2>
-  <div class="alert alert-secondary">
-    <h6>セッション全体の中身：</h6>
-    <pre>{{ var_export(session()->all(), true) }}</pre>
-  </div>
 
   <form action="{{ route('shopping.confirm') }}" method="POST" enctype="multipart/form-data" id="shopping-form">
     @csrf
     @if (!empty($data))
-      <div class="alert alert-warning">
-        修正モードで開かれました（内容を確認・編集してください）
-      </div>
-    @endif   
+      <p class="text-muted">修正モードで開かれました</p>
+    @endif  
     <!-- 店舗名・購入日 -->
     <div class="row mb-3">
       <div class="col-md-6">
         <label for="store" class="form-label">店舗名</label>
         <input type="text" name="store" id="store" class="form-control"
           value="{{ old('store', $data['store'] ?? '') }}" required>
-      </div>
 
+      </div>
       <div class="col-md-6">
         <label for="date" class="form-label">購入日</label>
         <input type="date" name="date" id="date" class="form-control"

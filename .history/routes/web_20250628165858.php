@@ -39,14 +39,13 @@ Route::post('/password-reset/{token}', [PasswordResetController::class, 'resetPa
 
 Route::get('/weather', [WeatherController::class, 'fetch'])->name('weather');
 
-Route::middleware(['web'])->group(function () {
-    Route::match(['get', 'post'], '/shopping-entry', [ShoppingController::class, 'entry'])->name('shopping.entry');
-});
-Route::post('/shopping-confirm', [ShoppingController::class, 'confirm'])->name('shopping.confirm');
-Route::get('/shopping-confirm/view', [ShoppingController::class, 'confirmView'])->name('shopping.confirm.view');
+Route::get('/shopping-entry', [ShoppingController::class, 'entry'])->name('shopping.entry');
+Route::post('/shopping-entry', [ShoppingController::class, 'entry'])->name('shopping.entry');
 
+Route::post('/shopping-confirm', [ShoppingController::class, 'confirm'])->name('shopping.confirm');
 Route::post('/shopping-store', [ShoppingController::class, 'store'])->name('shopping.store');
 Route::get('/shopping-history', [ShoppingController::class, 'history'])->name('shopping.history');
+
 
 Route::get('/camera', function () {
     return 'カメラ起動処理はここに実装予定です';

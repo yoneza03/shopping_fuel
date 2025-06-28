@@ -38,6 +38,7 @@
     </form>
 
     <form action="{{ route('shopping.entry') }}" method="GET">
+        @csrf
         <button type="submit" class="btn btn-secondary">修正</button>
     </form>
 

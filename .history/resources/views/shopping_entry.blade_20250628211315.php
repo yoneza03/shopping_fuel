@@ -7,10 +7,6 @@
 <div class="container">
 
   <h2 class="mb-4">買い物データ入力</h2>
-  <div class="alert alert-secondary">
-    <h6>セッション全体の中身：</h6>
-    <pre>{{ var_export(session()->all(), true) }}</pre>
-  </div>
 
   <form action="{{ route('shopping.confirm') }}" method="POST" enctype="multipart/form-data" id="shopping-form">
     @csrf

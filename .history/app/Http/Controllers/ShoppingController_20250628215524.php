@@ -17,22 +17,22 @@ class ShoppingController extends Controller
     public function confirm(Request $request)
     {
         $data = $request->except('receipt');
-        session()->put('shopping', $data); 
 
         \Log::info('セッションに保存', ['data' => $data]);
 
         //  セッションの代わりに flash data（1リクエスト限定）を with() で送る
-        return redirect()->route('shopping.confirm.view');
+        return redirect()->route('shopping.confirm.view')->with('shopping', $data);
     }
 
     //確認画面の表示専用ページ
     public function confirmView()
     {
         // flashデータ（with）から取得
-        $data = session()->get('shopping');
+        $data = session('shopping');
+
         return view('shopping_confirm', compact('data'));
     }
-
+    
     // データ登録処理
     public function store()
     {

@@ -22,7 +22,7 @@ class ShoppingController extends Controller
         \Log::info('セッションに保存', ['data' => $data]);
 
         //  セッションの代わりに flash data（1リクエスト限定）を with() で送る
-        return redirect()->route('shopping.confirm.view');
+        return redirect()->route('shopping.confirm.view')
     }
 
     //確認画面の表示専用ページ
