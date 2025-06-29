@@ -5,14 +5,20 @@
 
 @section('content')
 <div class="container">
+@php session()->start(); @endphp
   <h2 class="mb-4">買い物データ入力</h2>
+  <div class="alert alert-secondary">
+    <h6>セッション全体の中身：</h6>
+    <pre>{{ var_export(session()->all(), true) }}</pre>
+  </div>
+
   <form action="{{ route('shopping.confirm') }}" method="POST" enctype="multipart/form-data" id="shopping-form">
     @csrf
-    @if (session('message'))
-      <div class="alert alert-info">
-        {{ session('message') }}
+    @if (!empty($data))
+      <div class="alert alert-warning">
+        修正モードで開かれました（内容を確認・編集してください）
       </div>
-    @endif
+    @endif   
     <!-- 店舗名・購入日 -->
     <div class="row mb-3">
       <div class="col-md-6">
@@ -44,13 +50,11 @@
         <tr>
           <td>
             <input type="text" name="items[{{ $index }}][name]" class="form-control"
-              {{-- value="{{ old("items.$index.name", $item['name'] ?? '') }}" required> --}}
-              value="{{ old("items.$index.name", $item['name'] ?? '') }}" >
+              value="{{ old("items.$index.name", $item['name'] ?? '') }}" required>
           </td>
           <td>
             <input type="number" name="items[{{ $index }}][price]" class="form-control"
-              {{-- value="{{ old("items.$index.price", $item['price'] ?? '') }}" required> --}}
-              value="{{ old("items.$index.price", $item['price'] ?? '') }}" >
+              value="{{ old("items.$index.price", $item['price'] ?? '') }}" required>
           </td>
           <td>
             <button type="button" class="btn btn-danger btn-sm remove-row">削除</button>
@@ -70,7 +74,6 @@
     <!-- 確認ボタン -->
     <div class="text-end">
       <button type="submit" class="btn btn-primary">確認</button>
-      <a href="{{ route('shopping.history') }}" class="btn btn-outline-info">履歴</a>
     </div>
   </form>
 </div>

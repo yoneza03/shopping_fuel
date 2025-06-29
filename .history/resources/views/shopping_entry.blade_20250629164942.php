@@ -44,13 +44,11 @@
         <tr>
           <td>
             <input type="text" name="items[{{ $index }}][name]" class="form-control"
-              {{-- value="{{ old("items.$index.name", $item['name'] ?? '') }}" required> --}}
-              value="{{ old("items.$index.name", $item['name'] ?? '') }}" >
+              value="{{ old("items.$index.name", $item['name'] ?? '') }}" required>
           </td>
           <td>
             <input type="number" name="items[{{ $index }}][price]" class="form-control"
-              {{-- value="{{ old("items.$index.price", $item['price'] ?? '') }}" required> --}}
-              value="{{ old("items.$index.price", $item['price'] ?? '') }}" >
+              value="{{ old("items.$index.price", $item['price'] ?? '') }}" required>
           </td>
           <td>
             <button type="button" class="btn btn-danger btn-sm remove-row">削除</button>

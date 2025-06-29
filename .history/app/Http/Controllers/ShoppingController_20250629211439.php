@@ -21,7 +21,7 @@ class ShoppingController extends Controller
         $data = $request->except('receipt');
         session()->put('shopping', $data); 
         session()->save();
- 
+
         //  セッションの代わりに flash data（1リクエスト限定）を with() で送る
         return redirect()->route('shopping.confirm.view');
     }

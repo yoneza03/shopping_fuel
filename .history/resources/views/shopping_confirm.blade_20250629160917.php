@@ -41,7 +41,8 @@
         <button type="submit" class="btn btn-secondary">修正</button>
     </form>
 
-    <form action="{{ route('shopping.clear') }}" method="GET" onsubmit="return confirm('本当に削除しますか？');">
+    <form action="{{ route('shopping.entry') }}" method="GET" onsubmit="return confirm('本当に削除しますか？');">
+      {{-- @php session()->forget('shopping'); @endphp --}}
       <button type="submit" class="btn btn-danger">削除</button>
     </form>
   </div>

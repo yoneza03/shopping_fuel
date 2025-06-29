@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ShoppingRecord;
-
 
 class ShoppingController extends Controller
 {
@@ -21,7 +19,9 @@ class ShoppingController extends Controller
         $data = $request->except('receipt');
         session()->put('shopping', $data); 
         session()->save();
- 
+
+        \Log::info('セッションに保存', ['data' => $data]);
+
         //  セッションの代わりに flash data（1リクエスト限定）を with() で送る
         return redirect()->route('shopping.confirm.view');
     }
@@ -44,23 +44,22 @@ class ShoppingController extends Controller
     // 登録
     public function store()
     {
-        $data = session()->get('shopping');
+        $newData = session()->get('shopping');
 
-        // データベースに保存
-        $record = ShoppingRecord::create([
-            'store' => $data['store'],
-            'date' => $data['date'],
-            'items' => json_encode($data['items']),
-        ]);
+        // 現在の履歴を取得（なければ空配列）
+        $history = session()->get('shopping_history', []);
 
+        array_unshift($history, $newData);
+        session()->put('shopping_history', $history);
         session()->forget('shopping');
+
         return redirect()->route('shopping.entry')->with('success', '登録完了しました');
     }
 
     // 買い物履歴
     public function history(Request $request)
     {
-        $history = ShoppingRecord::orderBy('date', 'desc')->get();
+        $history = session('shopping_history', []);
 
         // 検索条件がある場合はフィルタリング
         if ($request->filled('store')) {
