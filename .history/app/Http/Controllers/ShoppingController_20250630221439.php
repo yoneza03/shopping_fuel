@@ -42,36 +42,25 @@ class ShoppingController extends Controller
         //  セッションの代わりに flash data（1リクエスト限定）を with() で送る
         return redirect()->route('shopping.confirm.view');
     }
-
-    //サブルーチン
+    
     private function parseReceipt(string $text): array
     {
         $store = '';
         $date = '';
         $items = [];
 
-        // 行単位に分解して解析
-        $lines = explode("\n", $text);
+        // 正規表現でそれっぽい内容を抽出
+        if (preg_match('/(イオン|トライアル|業務スーパー)/u', $text, $m)) {
+            $store = $m[1];
+        }
 
-        foreach ($lines as $line) {
-            $line = trim($line);
+        if (preg_match('/\d{4}[\/\-]\d{2}[\/\-]\d{2}/', $text, $m)) {
+            $date = $m[0];
+        }
 
-            // 店舗名を検出
-            if ($store === '' && preg_match('/(イオン|トライアル|業務スーパー|ライフ|マックスバリュ)/u', $line, $match)) {
-                $store = $match[1];
-            }
-
-            // 日付を検出（例: 2025/06/23 → 2025-06-23）
-            if ($date === '' && preg_match('/\d{4}[\/\-]\d{2}[\/\-]\d{2}/', $line, $match)) {
-                $date = str_replace('/', '-', $match[0]);
-            }
-
-            // 品名＋金額（例: たまご 289円）
+        foreach (explode("\n", $text) as $line) {
             if (preg_match('/(.+?)\s+(\d{2,5})円/u', $line, $match)) {
-                $items[] = [
-                    'name' => $match[1],
-                    'price' => $match[2],
-                ];
+                $items[] = ['name' => $match[1], 'price' => $match[2]];
             }
         }
 
