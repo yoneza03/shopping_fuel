@@ -19,24 +19,24 @@ class ShoppingController extends Controller
     public function confirm(Request $request)
     {
         $data = $request->except('receipt');
+        \Log::debug('画像サイズ(byte): ' . filesize($fullPath));
         if ($request->hasFile('receipt')) {
-            $uploaded = $request->file('receipt');
-            $filename = uniqid() . '.' . $uploaded->getClientOriginalExtension();
-            $publicTmpPath = public_path('tmp');
+            $path = $request->file('receipt')->store('tmp');
+            $fullPath = storage_path('app/' . $path);
 
-            if (!file_exists($publicTmpPath)) {
-                mkdir($publicTmpPath, 0775, true);
+            \Log::debug('フルパス確認: ' . $fullPath);
+
+            if (!file_exists($fullPath)) {
+                \Log::error('⚠️ 画像が存在しません: ' . $fullPath);
+                abort(500, '画像が見つかりませんでした');
             }
-
-            $uploaded->move($publicTmpPath, $filename);
-            $fullPath = $publicTmpPath . '/' . $filename;
-
-            \Log::debug('OCRに渡す実パス: ' . $fullPath);
 
             $ocrText = (new TesseractOCR($fullPath))
                         ->lang('jpn')
-                        ->run();            //  OCR結果をパース（必要に応じて parseReceipt メソッドを用意）
-                        $parsed = $this->parseReceipt($ocrText);
+                        ->run();
+
+            //  OCR結果をパース（必要に応じて parseReceipt メソッドを用意）
+            $parsed = $this->parseReceipt($ocrText);
 
             // 手入力よりも OCR優先で上書き（お好みで調整OK）
             $data = array_merge($data, $parsed);

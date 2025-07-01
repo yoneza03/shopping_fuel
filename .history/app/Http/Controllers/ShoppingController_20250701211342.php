@@ -19,24 +19,18 @@ class ShoppingController extends Controller
     public function confirm(Request $request)
     {
         $data = $request->except('receipt');
+
         if ($request->hasFile('receipt')) {
-            $uploaded = $request->file('receipt');
-            $filename = uniqid() . '.' . $uploaded->getClientOriginalExtension();
-            $publicTmpPath = public_path('tmp');
+            $path = $request->file('receipt')->store('tmp'); // 一時保存
+            \Log::debug('画像の保存パス: ' . $path);
+            \Log::debug('実フルパス: ' . storage_path('app/' . $path));
 
-            if (!file_exists($publicTmpPath)) {
-                mkdir($publicTmpPath, 0775, true);
-            }
-
-            $uploaded->move($publicTmpPath, $filename);
-            $fullPath = $publicTmpPath . '/' . $filename;
-
-            \Log::debug('OCRに渡す実パス: ' . $fullPath);
-
-            $ocrText = (new TesseractOCR($fullPath))
+            $ocrText = (new TesseractOCR(storage_path('app/' . $path)))
                         ->lang('jpn')
-                        ->run();            //  OCR結果をパース（必要に応じて parseReceipt メソッドを用意）
-                        $parsed = $this->parseReceipt($ocrText);
+                        ->run();
+
+            //  OCR結果をパース（必要に応じて parseReceipt メソッドを用意）
+            $parsed = $this->parseReceipt($ocrText);
 
             // 手入力よりも OCR優先で上書き（お好みで調整OK）
             $data = array_merge($data, $parsed);
