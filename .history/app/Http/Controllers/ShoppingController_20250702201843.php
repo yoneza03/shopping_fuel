@@ -61,54 +61,45 @@ class ShoppingController extends Controller
         // 行単位に分解して解析
         $lines = explode("\n", $text);
         $excludeKeywords = ['TEL', 'FAX', '登録番号', '会員番号', 'カード会社', '承認番号', '伝票番号', 'お取扱日', 'AID', 'VISA', '合計', '税', '本人確認'];
-        $keywords = ['弁当', 'パイ', 'ポテト', 'パン', '卵', '牛乳', '野菜', '肉', '水', 'おにぎり', 'アイス'];
 
+        $lineClean = trim($line);
+        $skip = false;
+        foreach ($excludeKeywords as $word) {
+            if (stripos($lineClean, $word) !== false) {
+                $skip = true;
+                break;
+            }
+        }
+
+        if (!$skip && preg_match('/(.+?)\s+[¥\\\]?\d{2,5}[\*％%]*/u', $line, $match)) {
+            $items[] = [
+                'name' => trim($match[1]),
+                'price' => preg_replace('/[^\d]/', '', $match[0]), // 記号削除
+            ];
+        }
+        
         foreach ($lines as $line) {
             $line = trim($line);
-            $lineClean = mb_convert_kana($line, 'as'); // 全角数字・英字→半角
 
             // 店舗名を検出
-            if ($store === '' && preg_match('/(イオン|トライアル|業務スーパー|ラ・ムー|サンディ)/u', $lineClean, $match)) {
+            if ($store === '' && preg_match('/(イオン|トライアル|業務スーパー|ラ・ムー|サンディ)/u', $line, $match)) {
                 $store = $match[1];
             }
 
             // 日付: 2025/ 5/10(土) → 数字のスラッシュ区切り＋任意の文字列
-            if ($date === '' && preg_match('/\d{4}\s*\/\s*\d{1,2}\s*\/\s*\d{1,2}/', $lineClean, $match)) {
+            if ($date === '' && preg_match('/\d{4}\s*\/\s*\d{1,2}\s*\/\s*\d{1,2}/', $line, $match)) {
                 $date = preg_replace('/\s+/', '', $match[0]); // スペース除去
                 $date = str_replace('/', '-', $date);
             }
 
-            // 商品行の除外キーワードチェック
-            $skip = false;
-            foreach ($excludeKeywords as $word) {
-                if (stripos($lineClean, $word) !== false) {
-                    $skip = true;
-                    break;
-                }
-            }
-
-            if ($skip) {
-                continue;
-            }
-
-            // 商品行のキーワードマッチ（任意）
-            $matchKeyword = false;
-            foreach ($keywords as $word) {
-                if (mb_strpos($lineClean, $word) !== false) {
-                    $matchKeyword = true;
-                    break;
-                }
-            }
-
-            // 品名＋金額（円なし、*あり、¥あり対応）
-            if ($matchKeyword && preg_match('/(.+?)\s+[¥\\\]?\s*(\d{2,5})[\*％%]*/u', $lineClean, $match)) {
+            // 品名＋金額: 金額のあとに「円」なし、「*」つきも対応
+            if (preg_match('/(.+?)\s+\\\?(\d{2,5})\*?$/u', $line, $match)) {
                 $items[] = [
                     'name' => trim($match[1]),
                     'price' => $match[2],
                 ];
             }
         }
-
         return [
             'store' => $store,
             'date' => $date,
@@ -154,27 +145,16 @@ class ShoppingController extends Controller
 
         // 検索条件がある場合はフィルタリング
         if ($request->filled('store')) {
-
-             \Log::debug('🏬 店舗フィルター:', ['store' => $request->input('store')]);
-
-            $history = $history->filter(function ($entry) use ($request) {
-
-                \Log::debug('🏪 比較中の店舗名:', ['entry_store' => $entry->store]);
-
-                return str_contains($entry->store, $request->input('store'));
+            $history = array_filter($history, function ($entry) use ($request) {
+                return str_contains($entry['store'], $request->input('store'));
             });
         }
 
         if ($request->filled('item_keyword')) {
             $keyword = $request->input('item_keyword');
 
-            \Log::debug('🔍 商品キーワード:', ['keyword' => $keyword]);
-
-            $history = $history->filter(function ($entry) use ($keyword) {
-
-                \Log::debug('📦 商品一覧:', ['items' => $entry->items ?? []]);
-
-                return collect($entry->items ?? [])->contains(function ($item) use ($keyword) {
+            $history = array_filter($history, function ($entry) use ($keyword) {
+                return collect($entry['items'] ?? [])->contains(function ($item) use ($keyword) {
                     return str_contains($item['name'], $keyword);
                 });
             });
@@ -184,19 +164,16 @@ class ShoppingController extends Controller
             $from = $request->input('date_from');
             $to = $request->input('date_to');
 
-            \Log::debug('📅 入力された日付フィルター:', ['from' => $from, 'to' => $to]);
+            $history = array_filter($history, function ($entry) use ($from, $to) {
+                $entryDate = $entry['date'] ?? null;
 
-
-            $history = $history->filter(function ($entry) use ($from, $to) {
-                $entryDate = \Carbon\Carbon::parse($entry->date)->format('Y-m-d');
-
-                \Log::debug('📜 レコード日付:', ['entry_date' => $entryDate]);
+                if (!$entryDate) return false;
 
                 if ($from && $entryDate < $from) return false;
                 if ($to && $entryDate > $to) return false;
 
                 return true;
-            });      
+            });
         }
 
         return view('shopping_history', [

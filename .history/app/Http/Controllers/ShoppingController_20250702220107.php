@@ -154,13 +154,7 @@ class ShoppingController extends Controller
 
         // 検索条件がある場合はフィルタリング
         if ($request->filled('store')) {
-
-             \Log::debug('🏬 店舗フィルター:', ['store' => $request->input('store')]);
-
             $history = $history->filter(function ($entry) use ($request) {
-
-                \Log::debug('🏪 比較中の店舗名:', ['entry_store' => $entry->store]);
-
                 return str_contains($entry->store, $request->input('store'));
             });
         }
@@ -168,12 +162,7 @@ class ShoppingController extends Controller
         if ($request->filled('item_keyword')) {
             $keyword = $request->input('item_keyword');
 
-            \Log::debug('🔍 商品キーワード:', ['keyword' => $keyword]);
-
             $history = $history->filter(function ($entry) use ($keyword) {
-
-                \Log::debug('📦 商品一覧:', ['items' => $entry->items ?? []]);
-
                 return collect($entry->items ?? [])->contains(function ($item) use ($keyword) {
                     return str_contains($item['name'], $keyword);
                 });
@@ -184,19 +173,17 @@ class ShoppingController extends Controller
             $from = $request->input('date_from');
             $to = $request->input('date_to');
 
-            \Log::debug('📅 入力された日付フィルター:', ['from' => $from, 'to' => $to]);
-
-
             $history = $history->filter(function ($entry) use ($from, $to) {
-                $entryDate = \Carbon\Carbon::parse($entry->date)->format('Y-m-d');
+                $entryDate = $entry->date ?? null;
 
-                \Log::debug('📜 レコード日付:', ['entry_date' => $entryDate]);
+                if (!$entryDate) return false;
 
-                if ($from && $entryDate < $from) return false;
-                if ($to && $entryDate > $to) return false;
+                if ($from && strcmp($entryDate, $from) < 0) return false;
+                if ($to && strcmp($entryDate, $to) > 0) return false;
+
 
                 return true;
-            });      
+            });
         }
 
         return view('shopping_history', [
