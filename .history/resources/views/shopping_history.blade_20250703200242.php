@@ -50,7 +50,7 @@
         {{ $record->store }}（{{ $record->date }}）
       </div>
       <ul class="list-group list-group-flush">
-        @foreach ($items ?? [] as $item)
+        @foreach ($record->items ?? [] as $item)
           <li class="list-group-item">
             {{ $item['name'] }} - ¥{{ number_format($item['price']) }}
           </li>

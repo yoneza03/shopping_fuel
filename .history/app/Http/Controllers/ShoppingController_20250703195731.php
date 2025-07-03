@@ -199,20 +199,6 @@ class ShoppingController extends Controller
             });      
         }
 
-        $records = ShoppingRecord::orderBy('date', 'asc')->get();
-
-        $priceHistory = [];
-        foreach ($records as $record) {
-            foreach ($record->items as $item) {
-                if ($item['name'] === 'スイートポテトパイ') {
-                    $priceHistory[] = [
-                        'date' => $record->date,
-                        'price' => $item['price'],
-                    ];
-                }
-            }
-        }
-
         return view('shopping_history', [
             'history' => $history,
             'filters' => $request->only(['store', 'item_keyword', 'date_from', 'date_to']),
