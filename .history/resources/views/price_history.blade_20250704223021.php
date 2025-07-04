@@ -24,7 +24,7 @@
       <h4>📈 価格変動グラフ</h4>
       <canvas id="priceChart" height="100"></canvas>
     </div>
-
+    
     <table class="table table-striped table-bordered">
       <thead class="table-light">
         <tr>
@@ -55,48 +55,3 @@
   </a>
 </div>
 @endsection
-
-<script>
-  const ctx = document.getElementById('priceChart').getContext('2d');
-
-  const chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: @json($labels), // X軸: 購入日
-      datasets: [{
-        label: '{{ $itemName }} の価格（円）',
-        data: @json($prices), // Y軸: 価格
-        borderColor: 'rgba(75, 192, 192, 1)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        fill: true,
-        tension: 0.3,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx => `価格: ¥${ctx.raw} 円`
-          }
-        },
-        title: {
-          display: true,
-          text: '{{ $itemName }} の価格変動（時系列）'
-        }
-      },
-      scales: {
-        y: {
-          title: { display: true, text: '価格（円）' },
-          beginAtZero: false
-        },
-        x: {
-          title: { display: true, text: '購入日' }
-        }
-      }
-    }
-  });
-</script>

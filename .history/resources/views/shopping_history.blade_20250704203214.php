@@ -11,7 +11,7 @@
         スイートポテトパイの価格変動を見る
       </a>
     </div>
-
+    
     <form action="{{ route('shopping.history') }}" method="POST" class="mb-4">
     @csrf
     <div class="row g-3">

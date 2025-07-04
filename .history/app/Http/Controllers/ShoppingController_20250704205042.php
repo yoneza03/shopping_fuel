@@ -171,12 +171,11 @@ class ShoppingController extends Controller
             \Log::debug('🔍 商品キーワード:', ['keyword' => $keyword]);
 
             $history = $history->filter(function ($entry) use ($keyword) {
-                $items = is_array($entry->items) ? $entry->items : json_decode($entry->items, true);
 
-                \Log::debug('📦 商品一覧（decode後）:', ['items' => $items]);
+                \Log::debug('📦 商品一覧:', ['items' => $entry->items ?? []]);
 
-                return collect($items)->contains(function ($item) use ($keyword) {
-                    return isset($item['name']) && str_contains($item['name'], $keyword);
+                return collect($entry->items ?? [])->contains(function ($item) use ($keyword) {
+                    return str_contains($item['name'], $keyword);
                 });
             });
         }
@@ -200,6 +199,19 @@ class ShoppingController extends Controller
             });      
         }
 
+        // $records = ShoppingRecord::orderBy('date', 'asc')->get();
+
+        // $priceHistory = [];
+        // foreach ($records as $record) {
+        //     foreach ($record->items as $item) {
+        //         if ($item['name'] === 'スイートポテトパイ') {
+        //             $priceHistory[] = [
+        //                 'date' => $record->date,
+        //                 'price' => $item['price'],
+        //             ];
+        //         }
+        //     }
+        // }
 
         return view('shopping_history', [
             'history' => $history,

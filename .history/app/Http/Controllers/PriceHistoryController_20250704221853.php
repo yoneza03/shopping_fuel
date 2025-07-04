@@ -46,13 +46,7 @@ class PriceHistoryController extends Controller
             $labels[] = $row['date'];
             $prices[] = $row['price'];
         }
-
-        return view('price_history', [
-            'itemName' => $itemName,
-            'history' => $history,
-            'labels' => $labels,
-            'prices' => $prices,
-            'summary' => $summary ?? null,
-        ]);
+        
+        return view('price_history', compact('itemName', 'history'));
     }
 }

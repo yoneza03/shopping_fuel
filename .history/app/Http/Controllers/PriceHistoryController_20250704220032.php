@@ -26,7 +26,7 @@ class PriceHistoryController extends Controller
                 }
             }
         }
-
+        
         $prices = collect($history)->pluck('price');
         $dates = collect($history)->pluck('date');
 
@@ -39,20 +39,6 @@ class PriceHistoryController extends Controller
             'max_date' => $dates[$prices->search($prices->max())] ?? null,
         ];
 
-        $labels = [];
-        $prices = [];
-
-        foreach ($history as $row) {
-            $labels[] = $row['date'];
-            $prices[] = $row['price'];
-        }
-
-        return view('price_history', [
-            'itemName' => $itemName,
-            'history' => $history,
-            'labels' => $labels,
-            'prices' => $prices,
-            'summary' => $summary ?? null,
-        ]);
+        return view('price_history', compact('itemName', 'history'));
     }
 }

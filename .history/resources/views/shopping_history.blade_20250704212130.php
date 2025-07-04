@@ -6,11 +6,11 @@
 <div class="container">
   <h2 class="mb-4">買い物履歴</h2>
 
-    <div class="mb-3">
+    {{-- <div class="mb-3">
       <a href="{{ route('price.history', ['item' => 'スイートポテトパイ']) }}" class="btn btn-outline-primary">
         スイートポテトパイの価格変動を見る
       </a>
-    </div>
+    </div> --}}
 
     <form action="{{ route('shopping.history') }}" method="POST" class="mb-4">
     @csrf
