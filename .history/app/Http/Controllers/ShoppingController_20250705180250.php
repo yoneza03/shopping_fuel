@@ -164,11 +164,7 @@ class ShoppingController extends Controller
             'date' => $data['date'],
             'items' => $data['items'],
         ]);
-        
-        if (empty($data['date'])) {
-            return redirect()->route('shopping.confirm.view')
-                ->with('error', '日付が未入力のため登録できませんでした。もう一度ご確認ください。');
-        }
+
         session()->forget('shopping');
         return redirect()->route('shopping.entry')->with('success', '登録完了しました');
     }
@@ -202,10 +198,8 @@ class ShoppingController extends Controller
                 \Log::debug('📦 商品一覧（decode後）:', ['items' => $items]);
 
                 return collect($items)->contains(function ($item) use ($keyword) {
-                    return 
-                    (isset($item['name']) && str_contains($item['name'], $keyword)) ||
-                    (isset($item['category']) && str_contains($item['category'], $keyword));
-                });      
+                    return isset($item['name']) && str_contains($item['name'], $keyword);
+                });
             });
         }
 

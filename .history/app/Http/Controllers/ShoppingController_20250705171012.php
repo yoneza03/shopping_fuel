@@ -60,27 +60,22 @@ class ShoppingController extends Controller
 
         // 行単位に分解して解析
         $lines = explode("\n", $text);
-        $excludeKeywords = config('receipt_keywords.exclude');
-        $keywords = config('receipt_keywords.keywords');
-        $storeList = config('receipt_keywords.stores');
-        
+        $excludeKeywords = [
+        '小計', '合計', '外税', '税込', 'ポイント', '会員', 'WAON', '支払', 'ボーナス', '割引',
+        '領収', 'お釣り', 'MES', '計', 'ID', 'レジ', '取', '責', '無料', '残高',
+        '基本', '有効期限', '対象金額', '電子', '登録番号', 'TEL', 'FAX'
+        ];        
+        $keywords = ['弁当', 'パイ', 'ポテト', 'パン', '卵', '牛乳', '野菜', '肉', '水', 'おにぎり', 'アイス'];
 
         foreach ($lines as $line) {
             $line = trim($line);
             $lineClean = mb_convert_kana($line, 'as'); // 全角数字・英字→半角
 
             // 店舗名を検出
-        $storePatterns = config('receipt_keywords.stores');
-
-        if ($store === '') {
-            foreach ($storePatterns as $pattern) {
-                if (mb_stripos($lineClean, $pattern) !== false) {
-                $store = $pattern;
-                break;
-                }
+            if ($store === '' && preg_match('/(ザ・ビッグ[^\s]*店|業務スーパー[^\s]*店|トライアル[^\s]*店|サンディ|ラ・ムー|イオン|seria|FamilyMart)/u', $lineClean, $match)) {
+                $store = $match[1];
             }
-        }  
-          // 日付: 2025/ 5/10(土) → 数字のスラッシュ区切り＋任意の文字列
+            // 日付: 2025/ 5/10(土) → 数字のスラッシュ区切り＋任意の文字列
             if ($date === '' && preg_match('/\d{4}\s*\/\s*\d{1,2}\s*\/\s*\d{1,2}/', $lineClean, $match)) {
                 $date = preg_replace('/\s+/', '', $match[0]); // スペース除去
                 $date = str_replace('/', '-', $date);
@@ -112,15 +107,13 @@ class ShoppingController extends Controller
             }
             
             // 品名＋金額
-            if (preg_match('/^(.+?)\s{1,}[¥\\\]?\s*([\d\s,\.]+)[\*％%]?$/u', $lineClean, $match)) {
+            if (preg_match('/^(.+?)\s{1,}[¥\\\]?\s*(\d{2,5}[,\.]?\d*)[\*％%]?$/u', $lineClean, $match)) {
                 $name = trim($match[1]);
-                $priceRaw = str_replace([' ', ','], '', $match[2]);
+                $priceRaw = str_replace([',', ' '], '', $match[2]);
                 $price = is_numeric($priceRaw) ? floatval($priceRaw) : null;
 
-                if ($price && strlen($name) > 3 && !preg_match('/^[¥\d\s\W]+$/u', $name)) {
-
-                 // 文字数で商品っぽさを判定
-                    // \Log::debug('🧾 商品抽出行:', ['line' => $lineClean, 'name' => $name, 'price' => $price]);
+                if ($price && strlen($name) > 3) { // 文字数で商品っぽさを判定
+                    \Log::debug('🧾 商品抽出行:', ['line' => $lineClean, 'name' => $name, 'price' => $price]);
                     
                     $items[] = [
                         'name' => $name,
@@ -164,11 +157,7 @@ class ShoppingController extends Controller
             'date' => $data['date'],
             'items' => $data['items'],
         ]);
-        
-        if (empty($data['date'])) {
-            return redirect()->route('shopping.confirm.view')
-                ->with('error', '日付が未入力のため登録できませんでした。もう一度ご確認ください。');
-        }
+
         session()->forget('shopping');
         return redirect()->route('shopping.entry')->with('success', '登録完了しました');
     }
@@ -202,10 +191,8 @@ class ShoppingController extends Controller
                 \Log::debug('📦 商品一覧（decode後）:', ['items' => $items]);
 
                 return collect($items)->contains(function ($item) use ($keyword) {
-                    return 
-                    (isset($item['name']) && str_contains($item['name'], $keyword)) ||
-                    (isset($item['category']) && str_contains($item['category'], $keyword));
-                });      
+                    return isset($item['name']) && str_contains($item['name'], $keyword);
+                });
             });
         }
 

@@ -60,27 +60,23 @@ class ShoppingController extends Controller
 
         // 行単位に分解して解析
         $lines = explode("\n", $text);
-        $excludeKeywords = config('receipt_keywords.exclude');
-        $keywords = config('receipt_keywords.keywords');
-        $storeList = config('receipt_keywords.stores');
-        
+        $excludeKeywords = [
+            'TEL', 'FAX', '登録番号', '会員番号', 'カード会社', '承認番号', '伝票番号',
+            'お取扱日', 'AID', 'VISA', '合計', '税', '本人確認', 'ポイント',
+            'WAON', 'レジ', '取', '責', 'お買上', '小計', '外税', 'お釣り', '領収',
+            'MES', '基本', '有効期限', '対象金額', '電子', 'ID', '計'
+        ];
+        $keywords = ['弁当', 'パイ', 'ポテト', 'パン', '卵', '牛乳', '野菜', '肉', '水', 'おにぎり', 'アイス'];
 
         foreach ($lines as $line) {
             $line = trim($line);
             $lineClean = mb_convert_kana($line, 'as'); // 全角数字・英字→半角
 
             // 店舗名を検出
-        $storePatterns = config('receipt_keywords.stores');
-
-        if ($store === '') {
-            foreach ($storePatterns as $pattern) {
-                if (mb_stripos($lineClean, $pattern) !== false) {
-                $store = $pattern;
-                break;
-                }
+            if ($store === '' && preg_match('/(ザ・ビッグ[^\s]*店|業務スーパー[^\s]*店|トライアル[^\s]*店|サンディ|ラ・ムー|イオン|seria|FamilyMart)/u', $lineClean, $match)) {
+                $store = $match[1];
             }
-        }  
-          // 日付: 2025/ 5/10(土) → 数字のスラッシュ区切り＋任意の文字列
+            // 日付: 2025/ 5/10(土) → 数字のスラッシュ区切り＋任意の文字列
             if ($date === '' && preg_match('/\d{4}\s*\/\s*\d{1,2}\s*\/\s*\d{1,2}/', $lineClean, $match)) {
                 $date = preg_replace('/\s+/', '', $match[0]); // スペース除去
                 $date = str_replace('/', '-', $date);
@@ -95,9 +91,6 @@ class ShoppingController extends Controller
                 }
             }
 
-            if (strlen($lineClean) < 6) continue; // 短すぎる行は除外
-            if (!preg_match('/\d/', $lineClean)) continue; // 数字を含まない行はスキップ    
-
             if ($skip) {
                 continue;
             }
@@ -110,25 +103,23 @@ class ShoppingController extends Controller
                     break;
                 }
             }
-            
+
             // 品名＋金額
-            if (preg_match('/^(.+?)\s{1,}[¥\\\]?\s*([\d\s,\.]+)[\*％%]?$/u', $lineClean, $match)) {
+            if (preg_match('/^(.+?)\s{1,}[¥\\\]?\s*(\d{2,5}[,\.]?\d*)[\*％%]?$/u', $lineClean, $match)) {
                 $name = trim($match[1]);
-                $priceRaw = str_replace([' ', ','], '', $match[2]);
+                $priceRaw = str_replace([',', ' '], '', $match[2]);
                 $price = is_numeric($priceRaw) ? floatval($priceRaw) : null;
 
-                if ($price && strlen($name) > 3 && !preg_match('/^[¥\d\s\W]+$/u', $name)) {
-
-                 // 文字数で商品っぽさを判定
-                    // \Log::debug('🧾 商品抽出行:', ['line' => $lineClean, 'name' => $name, 'price' => $price]);
-                    
+                if ($price && strlen($name) > 3) { // 文字数で商品っぽさを判定
                     $items[] = [
                         'name' => $name,
                         'price' => $price
                     ];
                 }
             } 
-
+            
+            if ($skip || strlen($lineClean) < 5) continue; // 短すぎる行はスキップ
+            if (!preg_match('/\d/', $lineClean)) continue; // 数字を含まない行はスキップ    
         }
 
         return [
@@ -164,11 +155,7 @@ class ShoppingController extends Controller
             'date' => $data['date'],
             'items' => $data['items'],
         ]);
-        
-        if (empty($data['date'])) {
-            return redirect()->route('shopping.confirm.view')
-                ->with('error', '日付が未入力のため登録できませんでした。もう一度ご確認ください。');
-        }
+
         session()->forget('shopping');
         return redirect()->route('shopping.entry')->with('success', '登録完了しました');
     }
@@ -202,10 +189,8 @@ class ShoppingController extends Controller
                 \Log::debug('📦 商品一覧（decode後）:', ['items' => $items]);
 
                 return collect($items)->contains(function ($item) use ($keyword) {
-                    return 
-                    (isset($item['name']) && str_contains($item['name'], $keyword)) ||
-                    (isset($item['category']) && str_contains($item['category'], $keyword));
-                });      
+                    return isset($item['name']) && str_contains($item['name'], $keyword);
+                });
             });
         }
 

@@ -60,7 +60,7 @@ function runCalculation() {
   `;
 }
 
-function renderPriceChart(labels, prices, itemName) {
+export function renderPriceChart(labels, prices, itemName) {
   const ctx = document.getElementById('priceChart').getContext('2d');
 
   new Chart(ctx, {

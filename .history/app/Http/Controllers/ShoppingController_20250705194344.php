@@ -202,10 +202,8 @@ class ShoppingController extends Controller
                 \Log::debug('📦 商品一覧（decode後）:', ['items' => $items]);
 
                 return collect($items)->contains(function ($item) use ($keyword) {
-                    return 
-                    (isset($item['name']) && str_contains($item['name'], $keyword)) ||
-                    (isset($item['category']) && str_contains($item['category'], $keyword));
-                });      
+                    return isset($item['name']) && str_contains($item['name'], $keyword);
+                });
             });
         }
 

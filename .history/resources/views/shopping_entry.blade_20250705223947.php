@@ -96,6 +96,7 @@ let rowCount = {{ count($data['items'] ?? [1]) }};
 document.getElementById('add-row').addEventListener('click', () => {
   const table = document.querySelector('#item-table tbody');
   const newRow = document.createElement('tr');
+  const categoryCell = newRow.insertCell(2);
 
   newRow.innerHTML = `
     <td><input type="text" name="items[${rowCount}][name]" class="form-control" required></td>

@@ -94,29 +94,15 @@
 <script>
 let rowCount = {{ count($data['items'] ?? [1]) }};
 document.getElementById('add-row').addEventListener('click', () => {
-  const table = document.querySelector('#item-table tbody');
-  const newRow = document.createElement('tr');
-
-  newRow.innerHTML = `
-    <td><input type="text" name="items[${rowCount}][name]" class="form-control" required></td>
-    <td><input type="number" name="items[${rowCount}][price]" class="form-control" required></td>
-    <td>
-      <select name="items[${rowCount}][category]" class="form-select" required>
-        <option value="">-- 選択 --</option>
-        <option value="お米">お米</option>
-        <option value="乳製品">乳製品</option>
-        <option value="お菓子">お菓子</option>
-        <option value="パン">パン</option>
-        <option value="肉">肉</option>
-        <option value="魚">魚</option>
-        <option value="野菜">野菜</option>
-        <option value="その他">その他</option>
-      </select>
-    </td>
-    <td><button type="button" class="btn btn-danger btn-sm remove-row">削除</button></td>
-  `;
-  table.appendChild(newRow);
-  rowCount++;
+    const table = document.querySelector('#item-table tbody');
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td><input type="text" name="items[${rowCount}][name]" class="form-control" required></td>
+      <td><input type="number" name="items[${rowCount}][price]" class="form-control" required></td>
+      <td><button type="button" class="btn btn-danger btn-sm remove-row">削除</button></td>
+    `;
+    table.appendChild(newRow);
+    rowCount++;
 });
 
 // 行削除処理（イベントバブリング対応）

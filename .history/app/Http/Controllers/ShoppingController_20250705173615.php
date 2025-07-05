@@ -63,7 +63,6 @@ class ShoppingController extends Controller
         $excludeKeywords = config('receipt_keywords.exclude');
         $keywords = config('receipt_keywords.keywords');
         $storeList = config('receipt_keywords.stores');
-        
 
         foreach ($lines as $line) {
             $line = trim($line);
@@ -112,15 +111,13 @@ class ShoppingController extends Controller
             }
             
             // 品名＋金額
-            if (preg_match('/^(.+?)\s{1,}[¥\\\]?\s*([\d\s,\.]+)[\*％%]?$/u', $lineClean, $match)) {
+            if (preg_match('/^(.+?)\s{1,}[¥\\\]?\s*(\d{2,5}[,\.]?\d*)[\*％%]?$/u', $lineClean, $match)) {
                 $name = trim($match[1]);
-                $priceRaw = str_replace([' ', ','], '', $match[2]);
+                $priceRaw = str_replace([',', ' '], '', $match[2]);
                 $price = is_numeric($priceRaw) ? floatval($priceRaw) : null;
 
-                if ($price && strlen($name) > 3 && !preg_match('/^[¥\d\s\W]+$/u', $name)) {
-
-                 // 文字数で商品っぽさを判定
-                    // \Log::debug('🧾 商品抽出行:', ['line' => $lineClean, 'name' => $name, 'price' => $price]);
+                if ($price && strlen($name) > 3) { // 文字数で商品っぽさを判定
+                    \Log::debug('🧾 商品抽出行:', ['line' => $lineClean, 'name' => $name, 'price' => $price]);
                     
                     $items[] = [
                         'name' => $name,
@@ -164,11 +161,7 @@ class ShoppingController extends Controller
             'date' => $data['date'],
             'items' => $data['items'],
         ]);
-        
-        if (empty($data['date'])) {
-            return redirect()->route('shopping.confirm.view')
-                ->with('error', '日付が未入力のため登録できませんでした。もう一度ご確認ください。');
-        }
+
         session()->forget('shopping');
         return redirect()->route('shopping.entry')->with('success', '登録完了しました');
     }
@@ -202,10 +195,8 @@ class ShoppingController extends Controller
                 \Log::debug('📦 商品一覧（decode後）:', ['items' => $items]);
 
                 return collect($items)->contains(function ($item) use ($keyword) {
-                    return 
-                    (isset($item['name']) && str_contains($item['name'], $keyword)) ||
-                    (isset($item['category']) && str_contains($item['category'], $keyword));
-                });      
+                    return isset($item['name']) && str_contains($item['name'], $keyword);
+                });
             });
         }
 

@@ -56,18 +56,13 @@
 </div>
 @endsection
 
-@section('scripts')
-  <!-- comparison.js の読み込み -->
-  <script src="{{ asset('js/comparison.js') }}"></script>
+<script src="{{ asset('js/comparison.js') }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const labels = @json($labels);
+    const prices = @json($prices);
+    const itemName = @json($itemName);
 
-  <!-- グラフ描画の呼び出し -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const labels = @json($labels);
-      const prices = @json($prices);
-      const itemName = @json($itemName);
-
-      renderPriceChart(labels, prices, itemName);
-    });
-  </script>
-@endsection
+    renderPriceChart(labels, prices, itemName); // comparison.js 内の関数
+  });
+</script>

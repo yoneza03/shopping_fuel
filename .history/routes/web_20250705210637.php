@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ShoppingFuelController;
@@ -51,13 +49,11 @@ Route::middleware(['web'])->group(function () {
 });
 
 Route::get('/price-history/{item}', [PriceHistoryController::class, 'show'])->name('price.history');
-
 Route::get('/price-history-jump', function (Request $request) {
-    $item = $request->query('item');    
+    $item = $request->query('item');
     if (!$item) {
         return redirect()->back()->with('error', '商品名を入力してください');
     }
-
     return redirect()->route('price.history', ['item' => $item]);
 })->name('price.history.jump');
 
