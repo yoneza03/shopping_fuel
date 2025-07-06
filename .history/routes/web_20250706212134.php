@@ -75,8 +75,6 @@ Route::get('/vehicle-entry/{id}/edit', [VehicleController::class, 'edit'])->name
 Route::put('/vehicle-entry/{id}', [VehicleController::class, 'update'])->name('vehicle.update');
 Route::delete('/vehicle-entry/{id}', [VehicleController::class, 'destroy'])->name('vehicle.destroy');
 
-Route::get('/vehicle-report', [VehicleReportController::class, 'index'])->name('vehicle.report');
-
 Route::get('/camera', function () {
     return 'カメラ起動処理はここに実装予定です';
 })->name('camera.start');

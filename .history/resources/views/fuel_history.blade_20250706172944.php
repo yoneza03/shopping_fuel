@@ -24,12 +24,8 @@
         <p>データがありません。</p>
       @endif
     </div>
-    <div class="mb-3">
-      <a href="{{ route('vehicle.report') }}" class="btn btn-outline-secondary">
-        車種別レポートを見る
-      </a>
-    </div> 
-   <!-- 右：グラフ -->
+
+    <!-- 右：グラフ -->
     <div class="col-md-6">
       <h4>📈 燃費グラフ</h4>
       <canvas id="fuelChart" height="200"></canvas>

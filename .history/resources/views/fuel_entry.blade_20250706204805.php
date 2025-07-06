@@ -48,9 +48,8 @@
       登録された車種がありません。下のボタンから車種を追加してください。
     </div>
   @endif
-
-  <button type="submit" class="btn btn-success">保存</button>
   
+  <button type="submit" class="btn btn-success">保存</button>
 </form>
 @endsection
 

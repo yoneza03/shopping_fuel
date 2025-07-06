@@ -1,9 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
-
-{{-- <form method="POST" action="{{ route('fuel.store') }}"> --}}
-<form action="{{ route('fuel.store') }}" method="POST">
+<form method="POST" action="{{ route('fuel.store') }}">
   @csrf
 
   <div class="mb-3">
@@ -14,14 +9,12 @@
   <div class="mb-3 row">
     <div class="col">
       <label class="form-label">走行距離（km）</label>
-      <input type="number" name="distance" class="form-control" step="any" id="distance" required>
+      <input type="number" name="distance" class="form-control" id="distance" required>
     </div>
-    
     <div class="col">
       <label class="form-label">給油量（L）</label>
-      <input type="number" name="fuel_amount" class="form-control" step="any" id="fuel_amount" required>
+      <input type="number" name="fuel" class="form-control" id="fuel" required>
     </div>
-
     <div class="col d-flex align-items-end">
       <button type="button" class="btn btn-outline-primary" id="calc-btn">計算</button>
     </div>
@@ -32,33 +25,14 @@
     <input type="text" class="form-control" id="result" readonly>
   </div>
 
-  <select name="vehicle_id" class="form-select" required>
-    @foreach ($vehicles as $vehicle)
-      <option value="{{ $vehicle->id }}">{{ $vehicle->name }}</option>
-    @endforeach
-  </select>
-
-  <div class="mb-4">
-    <a href="{{ route('vehicle.index') }}" class="btn btn-outline-secondary">
-      車種を新しく登録する
-    </a>
-  </div>
-    @if ($vehicles->isEmpty())
-    <div class="alert alert-warning">
-      登録された車種がありません。下のボタンから車種を追加してください。
-    </div>
-  @endif
-
   <button type="submit" class="btn btn-success">保存</button>
-  
 </form>
-@endsection
 
 @section('scripts')
 <script>
 document.getElementById('calc-btn').addEventListener('click', () => {
   const dist = parseFloat(document.getElementById('distance').value);
-  const fuel = parseFloat(document.getElementById('fuel_amount').value);
+  const fuel = parseFloat(document.getElementById('fuel').value);
   const resultEl = document.getElementById('result');
 
   if (!isNaN(dist) && !isNaN(fuel) && fuel !== 0) {

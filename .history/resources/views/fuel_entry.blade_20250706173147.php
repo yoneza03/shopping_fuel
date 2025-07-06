@@ -38,19 +38,7 @@
     @endforeach
   </select>
 
-  <div class="mb-4">
-    <a href="{{ route('vehicle.index') }}" class="btn btn-outline-secondary">
-      車種を新しく登録する
-    </a>
-  </div>
-    @if ($vehicles->isEmpty())
-    <div class="alert alert-warning">
-      登録された車種がありません。下のボタンから車種を追加してください。
-    </div>
-  @endif
-
   <button type="submit" class="btn btn-success">保存</button>
-  
 </form>
 @endsection
 

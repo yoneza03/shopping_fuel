@@ -13,8 +13,6 @@ use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\ShoppingController;
 use App\Http\Controllers\PriceHistoryController;
 use App\Http\Controllers\FuelRecordController; 
-use App\Http\Controllers\VehicleController;
-
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -69,13 +67,6 @@ Route::get('/fuel-entry', [FuelRecordController::class, 'create'])->name('fuel.e
 Route::post('/fuel-store', [FuelRecordController::class, 'store'])->name('fuel.store');
 Route::get('/fuel-history', [FuelRecordController::class, 'history'])->name('fuel.history');
 
-Route::get('/vehicle-entry', [VehicleController::class, 'index'])->name('vehicle.index');
-Route::post('/vehicle-entry', [VehicleController::class, 'store'])->name('vehicle.store');
-Route::get('/vehicle-entry/{id}/edit', [VehicleController::class, 'edit'])->name('vehicle.edit');
-Route::put('/vehicle-entry/{id}', [VehicleController::class, 'update'])->name('vehicle.update');
-Route::delete('/vehicle-entry/{id}', [VehicleController::class, 'destroy'])->name('vehicle.destroy');
-
-Route::get('/vehicle-report', [VehicleReportController::class, 'index'])->name('vehicle.report');
 
 Route::get('/camera', function () {
     return 'カメラ起動処理はここに実装予定です';

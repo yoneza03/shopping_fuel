@@ -5,7 +5,7 @@
   <div class="row">
     <!-- 左：履歴テーブル -->
     <div class="col-md-6">
-      <h4>🚗 燃費履歴一覧</h4>
+      <h4>📋 燃費履歴一覧</h4>
       @if ($records->count())
         <table class="table table-bordered">
           <thead><tr><th>日付</th><th>距離</th><th>給油量</th><th>燃費</th></tr></thead>
@@ -24,12 +24,8 @@
         <p>データがありません。</p>
       @endif
     </div>
-    <div class="mb-3">
-      <a href="{{ route('vehicle.report') }}" class="btn btn-outline-secondary">
-        車種別レポートを見る
-      </a>
-    </div> 
-   <!-- 右：グラフ -->
+
+    <!-- 右：グラフ -->
     <div class="col-md-6">
       <h4>📈 燃費グラフ</h4>
       <canvas id="fuelChart" height="200"></canvas>

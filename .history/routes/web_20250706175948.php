@@ -71,11 +71,6 @@ Route::get('/fuel-history', [FuelRecordController::class, 'history'])->name('fue
 
 Route::get('/vehicle-entry', [VehicleController::class, 'index'])->name('vehicle.index');
 Route::post('/vehicle-entry', [VehicleController::class, 'store'])->name('vehicle.store');
-Route::get('/vehicle-entry/{id}/edit', [VehicleController::class, 'edit'])->name('vehicle.edit');
-Route::put('/vehicle-entry/{id}', [VehicleController::class, 'update'])->name('vehicle.update');
-Route::delete('/vehicle-entry/{id}', [VehicleController::class, 'destroy'])->name('vehicle.destroy');
-
-Route::get('/vehicle-report', [VehicleReportController::class, 'index'])->name('vehicle.report');
 
 Route::get('/camera', function () {
     return 'カメラ起動処理はここに実装予定です';
