@@ -18,9 +18,10 @@
     @include('layouts.header')  
 
     {{--  navbar を読み込み　燃費計算には燃費用ナビバーを表示 --}}
-    @if(Auth::check() && (request()->routeIs('fuel.*') || request()->routeIs('vehicle.*')))
+    @if(Auth::check() && request()->routeIs('fuel.*') || request()->routeIs('vehicle.*'))
         @include('layouts.navbar')
     @endif
+
     <div class="container">
         @yield('content')  {{-- 各ページの内容をここに埋め込む --}}
     </div>

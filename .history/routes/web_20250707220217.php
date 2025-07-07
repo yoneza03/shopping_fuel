@@ -77,7 +77,7 @@ Route::put('/vehicle-entry/{id}', [VehicleController::class, 'update'])->name('v
 Route::delete('/vehicle-entry/{id}', [VehicleController::class, 'destroy'])->name('vehicle.destroy');
 Route::get('/vehicle-report', [VehicleReportController::class, 'index'])->name('vehicle.report');
 
-Route::get('/receipt-scan', [ReceiptScanController::class, 'scan'])->name('camera.start');
+Route::get('/receipt-scan', [ReceiptScanController::class, 'scan'])->name('receipt.scan');
 Route::post('/receipt-scan/store', [ReceiptScanController::class, 'store'])->name('receipt.store');
 Route::post('/receipt-scan/confirm', [ReceiptScanController::class, 'confirm'])->name('receipt.confirm');
 

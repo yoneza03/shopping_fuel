@@ -14,8 +14,7 @@ use App\Http\Controllers\ShoppingController;
 use App\Http\Controllers\PriceHistoryController;
 use App\Http\Controllers\FuelRecordController; 
 use App\Http\Controllers\VehicleController;
-use App\Http\Controllers\VehicleReportController;
-use App\Http\Controllers\ReceiptScanController;
+
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -75,11 +74,12 @@ Route::post('/vehicle-entry', [VehicleController::class, 'store'])->name('vehicl
 Route::get('/vehicle-entry/{id}/edit', [VehicleController::class, 'edit'])->name('vehicle.edit');
 Route::put('/vehicle-entry/{id}', [VehicleController::class, 'update'])->name('vehicle.update');
 Route::delete('/vehicle-entry/{id}', [VehicleController::class, 'destroy'])->name('vehicle.destroy');
+
 Route::get('/vehicle-report', [VehicleReportController::class, 'index'])->name('vehicle.report');
 
-Route::get('/receipt-scan', [ReceiptScanController::class, 'scan'])->name('camera.start');
-Route::post('/receipt-scan/store', [ReceiptScanController::class, 'store'])->name('receipt.store');
-Route::post('/receipt-scan/confirm', [ReceiptScanController::class, 'confirm'])->name('receipt.confirm');
+Route::get('/camera', function () {
+    return 'カメラ起動処理はここに実装予定です';
+})->name('camera.start');
 
 Route::get('/history', function () {
     return '履歴一覧はここに実装予定です';
