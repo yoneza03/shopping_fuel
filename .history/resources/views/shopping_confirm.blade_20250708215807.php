@@ -5,12 +5,6 @@
 @section('content')
 <div class="container">
   <h2 class="mb-4">登録内容の確認</h2>
-  @if (!empty($data['ocrText']))
-    <div class="mb-3">
-      <label for="ocrText" class="form-label">OCR読み取り結果</label>
-      <textarea name="ocrText" class="form-control" rows="6">{{ $data['ocrText'] }}</textarea>
-    </div>
-  @endif
   @if (!empty($ocrText))
     <div class="mb-4">
       <label for="ocr" class="form-label">📄 OCR読み取り結果（調整してから登録できます）</label>

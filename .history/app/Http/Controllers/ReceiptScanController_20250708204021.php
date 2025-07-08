@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class ReceiptScanController extends Controller
 {
@@ -37,14 +36,7 @@ class ReceiptScanController extends Controller
     {
         $imagePath = $request->input('image_path');
 
-        $text = (new TesseractOCR(public_path($imagePath)))
-                    ->lang('jpn')  // 日本語の場合
-                    ->run();
         // ここで買い物データ入力画面へ画像を渡す
-        return view('shopping_confirm', [
-            'imagePath' => $imagePath,
-            'ocrText' => $text,
-            'data' => $data ?? [],
-        ]);
+        return view('shopping_confirm', ['imagePath' => $imagePath]);
     }
 }

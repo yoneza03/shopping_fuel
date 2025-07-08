@@ -41,10 +41,6 @@ class ReceiptScanController extends Controller
                     ->lang('jpn')  // 日本語の場合
                     ->run();
         // ここで買い物データ入力画面へ画像を渡す
-        return view('shopping_confirm', [
-            'imagePath' => $imagePath,
-            'ocrText' => $text,
-            'data' => $data ?? [],
-        ]);
+        return view('shopping_confirm', ['imagePath' => $imagePath]);
     }
 }

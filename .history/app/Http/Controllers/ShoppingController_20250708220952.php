@@ -32,15 +32,15 @@ class ShoppingController extends Controller
             $fullPath = $publicTmpPath . '/' . $filename;
 
             \Log::debug('OCRに渡す実パス: ' . $fullPath);
-
+            $data['ocrText'] = $ocrText;
+            session()->put('shopping', $data);
+            
             $ocrText = (new TesseractOCR($fullPath))
                         ->lang('jpn+eng')
                         ->run();  
                         \Log::debug('📦 OCR結果: ' . $ocrText);
                                   //  OCR結果をパース（必要に応じて parseReceipt メソッドを用意）
                         $parsed = $this->parseReceipt($ocrText);
-            $data['ocrText'] = $ocrText;
-            session()->put('shopping', $data);
 
             // 手入力よりも OCR優先で上書き（お好みで調整OK）
             $data = array_merge($data, $parsed);

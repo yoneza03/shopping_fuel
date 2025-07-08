@@ -43,8 +43,7 @@ class ReceiptScanController extends Controller
         // ここで買い物データ入力画面へ画像を渡す
         return view('shopping_confirm', [
             'imagePath' => $imagePath,
-            'ocrText' => $text,
-            'data' => $data ?? [],
+            'ocrText' => $text
         ]);
     }
 }
