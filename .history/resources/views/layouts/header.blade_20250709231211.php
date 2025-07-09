@@ -2,7 +2,6 @@
     <a href="{{ route('login') }}">
         <img src="{{ asset('images/logo.png') }}" alt="ロゴ" class="logo"></a>
         <a href="{{ route('home') }}" class="btn btn-primary">ホームへ戻る</a>
-
     @if(Auth::check() && request()->routeIs('home'))
     <a href="#" class="btn btn-danger"
         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

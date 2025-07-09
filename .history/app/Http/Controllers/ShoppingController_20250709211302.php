@@ -82,12 +82,10 @@ class ShoppingController extends Controller
                 }
             }
         }  
-          // 年/月/日または 年月日（スペース・全角対応）
-            if ($date === '' && preg_match('/(\d{4})[\/年\. ]+(\d{1,2})[\/月\. ]+(\d{1,2})[日]?/', $lineClean, $match)) {
-                $date = "{$match[1]}-{$match[2]}-{$match[3]}";
+          // 日付: 2025/ 5/10(土) → 数字のスラッシュ区切り＋任意の文字列
+            if ($date === '' && preg_match('/\d{4}\s*\/\s*\d{1,2}\s*\/\s*\d{1,2}/', $lineClean, $match)) {
                 $date = preg_replace('/\s+/', '', $match[0]); // スペース除去
                 $date = str_replace('/', '-', $date);
-
             }
 
             // 商品行の除外キーワードチェック

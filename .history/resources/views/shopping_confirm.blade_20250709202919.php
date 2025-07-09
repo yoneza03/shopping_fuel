@@ -39,7 +39,7 @@
   <div class="d-flex justify-content-between mt-4">
     <form action="{{ route('shopping.store') }}" method="POST">
       @csrf
-      <textarea name="ocrText" style="display:none;">{{ $ocrText }}</textarea>
+      <textarea name="ocr_text" style="display:none;">{{ $ocrText }}</textarea>
       <button type="submit" class="btn btn-success">登録</button>
     </form>
 

@@ -11,6 +11,12 @@
       <textarea name="ocrText" class="form-control" rows="6">{{ $data['ocrText'] }}</textarea>
     </div>
   @endif
+  @if (!empty($ocrText))
+    <div class="mb-4">
+      <label for="ocr" class="form-label">📄 OCR読み取り結果（調整してから登録できます）</label>
+      <textarea class="form-control" id="ocr" name="ocr_text" rows="6">{{ $data['ocrText'] }}</textarea>
+    </div>
+  @endif
   <div class="mb-3">
     <strong>店舗名：</strong> {{ $data['store'] ?? '' }}<br>
     <strong>購入日：</strong> {{ $data['date'] ?? '' }}
@@ -39,7 +45,7 @@
   <div class="d-flex justify-content-between mt-4">
     <form action="{{ route('shopping.store') }}" method="POST">
       @csrf
-      <textarea name="ocrText" style="display:none;">{{ $ocrText }}</textarea>
+      <textarea name="ocr_text" style="display:none;">{{ $ocrText }}</textarea>
       <button type="submit" class="btn btn-success">登録</button>
     </form>
 
