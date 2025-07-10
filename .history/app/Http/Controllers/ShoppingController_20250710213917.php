@@ -69,6 +69,7 @@ class ShoppingController extends Controller
         foreach ($lines as $line) {
             $line = trim($line);
             $lineClean = mb_convert_kana($line, 'as'); // 全角数字・英字→半角
+
             //  店舗名の検出
             if ($store === '') {
                 foreach ($storeList as $pattern) {
@@ -110,17 +111,7 @@ class ShoppingController extends Controller
                 $priceRaw = str_replace([' ', ','], '', $match[2]);
                 $price = is_numeric($priceRaw) ? floatval($priceRaw) : null;
 
-                $invalidWords = ['伝票', 'カード', '承認', '控え', '番号', 'VISA', '本人', 'IC'];
-
-                foreach ($invalidWords as $bad) {
-                    if (stripos($name, $bad) !== false) {
-                        continue 2; // この商品行をスキップ！
-                    }
-                }
-
                 if ($price && strlen($name) > 3 && !preg_match('/^[¥\d\s\W]+$/u', $name)) {
-                    \Log::debug('📦 商品候補:', ['line' => $lineClean, 'name' => $name, 'price' => $price]);
-
                     $items[] = [
                         'name' => $name,
                         'price' => $price

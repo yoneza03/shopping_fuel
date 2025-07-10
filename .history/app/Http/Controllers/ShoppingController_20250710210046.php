@@ -61,25 +61,39 @@ class ShoppingController extends Controller
         $date = '';
         $items = [];
 
+        // 行単位に分解して解析
         $lines = explode("\n", $text);
         $excludeKeywords = config('receipt_keywords.exclude');
         $keywords = config('receipt_keywords.keywords');
         $storeList = config('receipt_keywords.stores');
+        
 
         foreach ($lines as $line) {
             $line = trim($line);
             $lineClean = mb_convert_kana($line, 'as'); // 全角数字・英字→半角
-            //  店舗名の検出
-            if ($store === '') {
-                foreach ($storeList as $pattern) {
-                    if (mb_stripos($lineClean, $pattern) !== false) {
-                        $store = $pattern;
-                        break;
-                    }
+
+            // 店舗名を検出
+        $storePatterns = config('receipt_keywords.stores');
+
+        if ($store === '') {
+            foreach ($storePatterns as $pattern) {
+                if (mb_stripos($lineClean, $pattern) !== false) {
+                $store = $pattern;
+                break;
                 }
             }
+        }  
+          // 年/月/日または 年月日（スペース・全角対応）
+        if ($date === '' && preg_match('/(\d{4})\D{0,2}(\d{1,2})\D{0,2}(\d{1,2})/', $lineClean, $match)) {
+            $year  = preg_replace('/\s+/', '', $match[1]);
+            $month = preg_replace('/\s+/', '', $match[2]);
+            $day   = preg_replace('/\s+/', '', $match[3]);
 
-            //  除外ワードチェック（TELなど含む）
+            $date = str_pad($year, 4, '0', STR_PAD_LEFT) . '-' .
+                    str_pad($month, 2, '0', STR_PAD_LEFT) . '-' .
+                    str_pad($day, 2, '0', STR_PAD_LEFT);
+        }            
+            // 商品行の除外キーワードチェック
             $skip = false;
             foreach ($excludeKeywords as $word) {
                 if (stripos($lineClean, $word) !== false) {
@@ -87,46 +101,41 @@ class ShoppingController extends Controller
                     break;
                 }
             }
-            if ($skip) continue;
 
-            //  日付抽出（先に処理しておく）
-            if ($date === '' && preg_match('/(\d{4})\D{0,3}(\d{1,2})\D{0,3}(\d{1,2})/', $lineClean, $match)) {
-                $y = intval($match[1]);
-                $m = intval($match[2]);
-                $d = intval($match[3]);
+            if (strlen($lineClean) < 6) continue; // 短すぎる行は除外
+            if (!preg_match('/\d/', $lineClean)) continue; // 数字を含まない行はスキップ    
 
-                if ($m >= 1 && $m <= 12 && $d >= 1 && $d <= 31) {
-                    $date = sprintf('%04d-%02d-%02d', $y, $m, $d);
-                }
+            if ($skip) {
+                continue;
             }
 
-            //  商品行の基本フィルター
-            if (strlen($lineClean) < 6) continue;
-            if (!preg_match('/\d/', $lineClean)) continue;
-
-            //  商品抽出
+            // 商品行のキーワードマッチ（任意）
+            $matchKeyword = true;
+            foreach ($keywords as $word) {
+                if (mb_strpos($lineClean, $word) !== false) {
+                    $matchKeyword = true;
+                    break;
+                }
+            }
+            
+            // 品名＋金額
             if (preg_match('/^(.+?)\s{1,}[¥\\\]?\s*([\d\s,\.]+)[\*％%]?$/u', $lineClean, $match)) {
                 $name = trim($match[1]);
                 $priceRaw = str_replace([' ', ','], '', $match[2]);
                 $price = is_numeric($priceRaw) ? floatval($priceRaw) : null;
 
-                $invalidWords = ['伝票', 'カード', '承認', '控え', '番号', 'VISA', '本人', 'IC'];
-
-                foreach ($invalidWords as $bad) {
-                    if (stripos($name, $bad) !== false) {
-                        continue 2; // この商品行をスキップ！
-                    }
-                }
-
                 if ($price && strlen($name) > 3 && !preg_match('/^[¥\d\s\W]+$/u', $name)) {
-                    \Log::debug('📦 商品候補:', ['line' => $lineClean, 'name' => $name, 'price' => $price]);
 
+                 // 文字数で商品っぽさを判定
+                    // \Log::debug('🧾 商品抽出行:', ['line' => $lineClean, 'name' => $name, 'price' => $price]);
+                    
                     $items[] = [
                         'name' => $name,
                         'price' => $price
                     ];
                 }
-            }
+            } 
+
         }
 
         return [
@@ -135,6 +144,7 @@ class ShoppingController extends Controller
             'items' => $items,
         ];
     }
+
     //確認画面の表示専用ページ
     public function confirmView()
     {

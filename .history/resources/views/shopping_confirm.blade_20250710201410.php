@@ -5,12 +5,12 @@
 @section('content')
 <div class="container">
   <h2 class="mb-4">登録内容の確認</h2>
-  {{-- @if (!empty($data['ocrText']))
+  @if (!empty($data['ocrText']))
     <div class="mb-3">
       <label for="ocrText" class="form-label">OCR読み取り結果</label>
       <textarea name="ocrText" class="form-control" rows="6">{{ $data['ocrText'] }}</textarea>
     </div>
-  @endif --}}
+  @endif
   <div class="mb-3">
     <strong>店舗名：</strong> {{ $data['store'] ?? '' }}<br>
     <strong>購入日：</strong> {{ $data['date'] ?? '' }}
