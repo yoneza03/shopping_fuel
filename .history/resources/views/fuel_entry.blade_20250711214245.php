@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <h2 class="mb-4">🚘 燃費計算 🚗 </h2>
+  <h2 class="mb-4">🚘 燃費計算 🚘</h2>
 {{-- <form method="POST" action="{{ route('fuel.store') }}"> --}}
   <form action="{{ route('fuel.store') }}" method="POST">
     @csrf

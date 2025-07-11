@@ -14,7 +14,6 @@
             <input type="hidden" name="name" value="{{ $name }}">
             <input type="hidden" name="email" value="{{ $email }}">
             <input type="hidden" name="password" value="{{ $password }}">
-            <input type="hidden" name="password_confirmation" value="{{ $password }}">
             <button type="submit" class="btn btn-primary w-100">登録</button>
         </form>
     </div>

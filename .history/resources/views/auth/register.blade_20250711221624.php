@@ -6,7 +6,7 @@
         <h2 class="mb-4">新規登録</h2>
 
         <!-- 新規登録フォーム -->
-        <form action="{{ route('register.confirm') }}" method="POST">
+        <form action="{{ route('register.confirm') }}" method="GET">
             @csrf
 
             <!-- ユーザー名 -->
