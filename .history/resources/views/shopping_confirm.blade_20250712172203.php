@@ -29,7 +29,7 @@
       @foreach ($data['items'] ?? [] as $item)
         <tr>
           <td>{{ $item['name'] }}</td>
-          <td>¥{{ number_format(floor($item['price'])) }}</td>
+          <td>¥{{ number_format($item['price']) }}</td>
         </tr>
       @endforeach
     </tbody>
@@ -50,8 +50,7 @@
       <textarea name="ocrText" style="display:none;">{{ $data['ocrText'] ?? '' }}</textarea>
       <button type="submit" class="btn btn-success">登録</button>
     @endif
-    </form>
-
+    
     <form action="{{ route('shopping.entry') }}" method="GET">
         <button type="submit" class="btn btn-secondary">修正</button>
     </form>

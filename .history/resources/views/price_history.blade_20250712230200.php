@@ -56,11 +56,7 @@
 </div>
 @endsection
 
-<div class="mb-3 text-end">
-  <a href="{{ route('price.export', ['itemName' => $itemName]) }}" class="btn btn-outline-primary">
-    CSV出力
-  </a>
-</div>
+<a href="{{ route('price.export') }}" class="btn btn-outline-primary">CSV出力</a>
 
 @section('scripts')
   <!-- comparison.js の読み込み -->

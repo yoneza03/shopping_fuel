@@ -57,7 +57,7 @@ Route::middleware(['web'])->group(function () {
 });
 
 Route::get('/price-history/{item}', [PriceHistoryController::class, 'show'])->name('price.history');
-Route::get('/price-export/{itemName}', [PriceHistoryController::class, 'export'])->name('price.export');
+
 Route::get('/price-history-jump', function (Request $request) {
     $item = $request->query('item');    
     if (!$item) {
@@ -70,7 +70,6 @@ Route::get('/price-history-jump', function (Request $request) {
 Route::get('/fuel-entry', [FuelRecordController::class, 'create'])->name('fuel.entry');
 Route::post('/fuel-store', [FuelRecordController::class, 'store'])->name('fuel.store');
 Route::get('/fuel-history', [FuelRecordController::class, 'history'])->name('fuel.history');
-Route::get('/fuel-export', [FuelRecordController::class, 'export'])->name('fuel.export');
 
 Route::get('/vehicle-entry', [VehicleController::class, 'index'])->name('vehicle.index');
 Route::post('/vehicle-entry', [VehicleController::class, 'store'])->name('vehicle.store');

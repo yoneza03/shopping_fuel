@@ -18,12 +18,14 @@
       <div class="col-md-6">
         <label for="store" class="form-label">店舗名</label>
         <input type="text" name="store" id="store" class="form-control"
+          {{-- value="{{ old('store', $data['store'] ?? '') }}" required> --}}
           value="{{ old('store', $data['store'] ?? '') }}" >
       </div>
 
       <div class="col-md-6">
         <label for="date" class="form-label">購入日</label>
         <input type="date" name="date" id="date" class="form-control"
+          {{-- value="{{ old('date', $data['date'] ?? '') }}" required> --}}
           value="{{ old('date', $data['date'] ?? '') }}" >
       </div>
     </div>
@@ -53,7 +55,7 @@
           <td>
               <select name="items[{{ $index }}][category]" class="form-select">
                 @php
-                  $categories = ['お米', '乳製品', '野菜', 'お菓子', 'パン', '飲料', '肉・魚', '惣菜・弁当', '調味料', '生活雑貨', '日用品', 'その他'];
+                  $categories = ['お米', '乳製品', '野菜', 'お菓子', 'パン', '飲料', '肉・魚', '惣菜・弁当', '生活雑貨', '日用品', 'その他'];
                   $selected = old("items.$index.category", $item['category'] ?? '');
                 @endphp
                 <option value="">-- 選択 --</option>
@@ -109,7 +111,6 @@ document.getElementById('add-row').addEventListener('click', () => {
         <option value="飲料">飲料</option>
         <option value="肉・魚">肉・魚</option>
         <option value="惣菜・弁当">惣菜・弁当</option>
-        <option value="調味料">調味料</option>
         <option value="生活雑貨">生活雑貨</option>
         <option value="日用品">日用品</option>
         <option value="その他">その他</option>

@@ -18,12 +18,14 @@
       <div class="col-md-6">
         <label for="store" class="form-label">店舗名</label>
         <input type="text" name="store" id="store" class="form-control"
+          {{-- value="{{ old('store', $data['store'] ?? '') }}" required> --}}
           value="{{ old('store', $data['store'] ?? '') }}" >
       </div>
 
       <div class="col-md-6">
         <label for="date" class="form-label">購入日</label>
         <input type="date" name="date" id="date" class="form-control"
+          {{-- value="{{ old('date', $data['date'] ?? '') }}" required> --}}
           value="{{ old('date', $data['date'] ?? '') }}" >
       </div>
     </div>

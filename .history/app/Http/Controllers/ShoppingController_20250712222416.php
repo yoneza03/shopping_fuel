@@ -157,12 +157,6 @@ class ShoppingController extends Controller
     {
         $data = session()->get('shopping');
 
-        // price を整数化！
-        foreach ($data['items'] as &$item) {
-            if (isset($item['price'])) {
-                $item['price'] = intval($item['price']); 
-            }
-        }
         // データベースに保存
         $record = ShoppingRecord::create([
             'store' => $data['store'],

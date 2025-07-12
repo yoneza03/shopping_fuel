@@ -157,12 +157,6 @@ class ShoppingController extends Controller
     {
         $data = session()->get('shopping');
 
-        // price を整数化！
-        foreach ($data['items'] as &$item) {
-            if (isset($item['price'])) {
-                $item['price'] = intval($item['price']); 
-            }
-        }
         // データベースに保存
         $record = ShoppingRecord::create([
             'store' => $data['store'],
@@ -251,7 +245,7 @@ class ShoppingController extends Controller
 
         return response()->stream(function () use ($records) {
             $stream = fopen('php://output', 'w');
-            fputcsv($stream, ['店舗名', '購入日', '商品名', 'カテゴリー', '価格']);
+            fputcsv($stream, ['店舗名', '購入日', '商品名', '価格']);
 
             foreach ($records as $record) {
                 $items = is_array($record->items) ? $record->items : json_decode($record->items, true);
@@ -260,8 +254,7 @@ class ShoppingController extends Controller
                         $record->store,
                         $record->date,
                         $item['name'] ?? '',
-                        $item['category'] ?? '', 
-                        isset($item['price']) ? '¥' . number_format($item['price'], 0) : '',
+                        $item['price'] ?? '',
                     ]);
                 }
             }

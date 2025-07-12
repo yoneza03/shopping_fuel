@@ -67,7 +67,7 @@
 </div>
 <div class="mb-3 text-end">
   <a href="{{ route('shopping.export') }}" class="btn btn-outline-primary">
-    CSV出力
+    CSVで出力する
   </a>
 </div>
 @endsection

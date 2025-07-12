@@ -57,7 +57,8 @@ Route::middleware(['web'])->group(function () {
 });
 
 Route::get('/price-history/{item}', [PriceHistoryController::class, 'show'])->name('price.history');
-Route::get('/price-export/{itemName}', [PriceHistoryController::class, 'export'])->name('price.export');
+Route::get('/price-export', [PriceHistoryController::class, 'export'])->name('price.export');
+
 Route::get('/price-history-jump', function (Request $request) {
     $item = $request->query('item');    
     if (!$item) {

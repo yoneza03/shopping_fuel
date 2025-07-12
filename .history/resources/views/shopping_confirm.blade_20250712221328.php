@@ -29,7 +29,7 @@
       @foreach ($data['items'] ?? [] as $item)
         <tr>
           <td>{{ $item['name'] }}</td>
-          <td>¥{{ number_format(floor($item['price'])) }}</td>
+          <td>¥{{ number_format(intval($item['price'])) }}</td>
         </tr>
       @endforeach
     </tbody>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ShoppingRecord;
 use thiagoalessio\TesseractOCR\TesseractOCR;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ShoppingController extends Controller
 {
@@ -35,7 +34,7 @@ class ShoppingController extends Controller
             \Log::debug('OCRに渡す実パス: ' . $fullPath);
 
             $ocrText = (new TesseractOCR($fullPath))
-                        ->lang('jpn')
+                        ->lang('jpn+eng')
                         ->run();  
                         \Log::debug('📦 OCR結果: ' . $ocrText);
             //  OCR結果をパース（必要に応じて parseReceipt メソッドを用意）
@@ -157,12 +156,6 @@ class ShoppingController extends Controller
     {
         $data = session()->get('shopping');
 
-        // price を整数化！
-        foreach ($data['items'] as &$item) {
-            if (isset($item['price'])) {
-                $item['price'] = intval($item['price']); 
-            }
-        }
         // データベースに保存
         $record = ShoppingRecord::create([
             'store' => $data['store'],
@@ -239,35 +232,4 @@ class ShoppingController extends Controller
             'filters' => $request->only(['store', 'item_keyword', 'date_from', 'date_to']),
         ]);
     }
-    //CSV出力
-    public function export(): StreamedResponse
-    {
-        $records = ShoppingRecord::orderBy('date', 'desc')->get();
-
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="shopping_records.csv"',
-        ];
-
-        return response()->stream(function () use ($records) {
-            $stream = fopen('php://output', 'w');
-            fputcsv($stream, ['店舗名', '購入日', '商品名', 'カテゴリー', '価格']);
-
-            foreach ($records as $record) {
-                $items = is_array($record->items) ? $record->items : json_decode($record->items, true);
-                foreach ($items as $item) {
-                    fputcsv($stream, [
-                        $record->store,
-                        $record->date,
-                        $item['name'] ?? '',
-                        $item['category'] ?? '', 
-                        isset($item['price']) ? '¥' . number_format($item['price'], 0) : '',
-                    ]);
-                }
-            }
-
-            fclose($stream);
-        }, 200, $headers);
-    }
-
 }
