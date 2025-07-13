@@ -37,7 +37,7 @@
         @foreach ($history as $row)
           <tr>
             <td>{{ $row['date'] }}</td>
-            <td>¥{{ number_format(intval($row['price'])) }}</td>
+            <td>¥{{ number_format($row['price']) }}</td>
             <td>{{ $row['store'] }}</td>
           </tr>
         @endforeach

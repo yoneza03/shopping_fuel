@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', '権限設定')
+@section('title', 'ユーザー権限')
 
 @section('content')
 

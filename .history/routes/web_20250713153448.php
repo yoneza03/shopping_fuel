@@ -17,7 +17,6 @@ use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\VehicleReportController;
 use App\Http\Controllers\ReceiptScanController;
 use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\AdminController;
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -60,7 +59,6 @@ Route::middleware(['web'])->group(function () {
 
 Route::get('/price-history/{item}', [PriceHistoryController::class, 'show'])->name('price.history');
 Route::get('/price-export/{itemName}', [PriceHistoryController::class, 'export'])->name('price.export');
-Route::get('/price-history/{itemName}', [PriceHistoryController::class, 'show'])->name('price.show');
 Route::get('/price-history-jump', function (Request $request) {
     $item = $request->query('item');    
     if (!$item) {
@@ -88,7 +86,7 @@ Route::post('/receipt-scan/confirm', [ReceiptScanController::class, 'confirm'])-
 
 Route::get('/history', [HistoryController::class, 'search'])->name('history.search');
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
-Route::post('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
-Route::post('/admin/delete/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+
+Route::get('/admin', function () {
+    return '管理者画面はここに実装予定です';
+})->name('admin');

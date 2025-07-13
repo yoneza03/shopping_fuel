@@ -85,12 +85,7 @@
           <td>{{ $row['date'] }}</td>
           <td>{{ $row['name'] }}</td>
           <td>¥{{ number_format($row['price']) }}</td>
-          <td>
-            <a href="{{ route('price.show', ['itemName' => $row['name']]) }}" class="btn btn-sm btn-outline-primary">
-              グラフへ
-            </a>
-          </td> 
-       </tr>
+        </tr>
       @endforeach
     </tbody>
   </table>
@@ -110,9 +105,6 @@
           <td>{{ $row['efficiency'] }} km/L</td>
         </tr>
       @endforeach
-      <a href="{{ route('vehicle.report') }}" class="btn btn-outline-secondary btn-sm">
-        詳細レポート
-      </a>
     </tbody>
   </table>
 @endif

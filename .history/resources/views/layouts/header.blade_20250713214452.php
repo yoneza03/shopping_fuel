@@ -5,14 +5,10 @@
 
   @if(Auth::check()) {{-- ログイン済みなら表示 --}}
     {{-- ログアウトリンク --}}
-    {{-- <a href="#" class="btn btn-danger"
+    <a href="#" class="btn btn-danger"
     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
     ログアウト
-    </a> --}}
-<form action="{{ route('logout') }}" method="POST" style="display: inline;">
-    @csrf
-    <button type="submit" class="btn btn-danger">ログアウト</button>
-</form>
+    </a>
   @endif
 </header>
 

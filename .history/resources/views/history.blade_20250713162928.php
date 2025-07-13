@@ -10,18 +10,11 @@
     {{-- 履歴種別選択 --}}
     <div class="mb-2">
       <label class="form-label">表示する履歴：</label>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" name="type[]" value="shopping" checked>
+        <input class="form-check-input" type="checkbox" name="type[]" value="shopping"
+        {{ in_array('shopping', request()->input('type', ['shopping'])) ? 'checked' : '' }}>
         <label class="form-check-label">買い物履歴</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" name="type[]" value="price" >
         <label class="form-check-label">価格変動履歴</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" name="type[]" value="fuel" >
         <label class="form-check-label">燃費履歴</label>
-      </div>
     </div>
 
     {{-- 絞り込み項目 --}}
@@ -85,12 +78,7 @@
           <td>{{ $row['date'] }}</td>
           <td>{{ $row['name'] }}</td>
           <td>¥{{ number_format($row['price']) }}</td>
-          <td>
-            <a href="{{ route('price.show', ['itemName' => $row['name']]) }}" class="btn btn-sm btn-outline-primary">
-              グラフへ
-            </a>
-          </td> 
-       </tr>
+        </tr>
       @endforeach
     </tbody>
   </table>
@@ -110,9 +98,6 @@
           <td>{{ $row['efficiency'] }} km/L</td>
         </tr>
       @endforeach
-      <a href="{{ route('vehicle.report') }}" class="btn btn-outline-secondary btn-sm">
-        詳細レポート
-      </a>
     </tbody>
   </table>
 @endif

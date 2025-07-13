@@ -5,7 +5,7 @@
   <div class="row">
     <!-- 左：履歴テーブル -->
     <div class="col-md-6">
-      <h4>🚗 燃費履歴一覧（{{ $vehicle_name }}）</h4>
+      <h4>🚗 燃費履歴一覧</h4>
       @if ($records->count())
         <table class="table table-bordered">
           <thead><tr><th>日付</th><th>距離</th><th>給油量</th><th>燃費</th></tr></thead>
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
       plugins: {
         title: {
           display: true,
-          text: '{{ $vehicle_name }} の燃費推移'
+          text: '燃費の推移'
         }
       }
     }

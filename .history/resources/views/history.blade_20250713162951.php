@@ -22,6 +22,8 @@
         <input class="form-check-input" type="checkbox" name="type[]" value="fuel" >
         <label class="form-check-label">燃費履歴</label>
       </div>
+      <input class="form-check-input" type="checkbox" name="type[]" value="shopping"
+        {{ in_array('shopping', request()->input('type', ['shopping'])) ? 'checked' : '' }}>
     </div>
 
     {{-- 絞り込み項目 --}}
@@ -85,12 +87,7 @@
           <td>{{ $row['date'] }}</td>
           <td>{{ $row['name'] }}</td>
           <td>¥{{ number_format($row['price']) }}</td>
-          <td>
-            <a href="{{ route('price.show', ['itemName' => $row['name']]) }}" class="btn btn-sm btn-outline-primary">
-              グラフへ
-            </a>
-          </td> 
-       </tr>
+        </tr>
       @endforeach
     </tbody>
   </table>
@@ -110,9 +107,6 @@
           <td>{{ $row['efficiency'] }} km/L</td>
         </tr>
       @endforeach
-      <a href="{{ route('vehicle.report') }}" class="btn btn-outline-secondary btn-sm">
-        詳細レポート
-      </a>
     </tbody>
   </table>
 @endif
