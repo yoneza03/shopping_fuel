@@ -34,14 +34,13 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         if (!auth()->check()) {
-        dd("ユーザーがログインしていません"); // デバッグ用
     }
 
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('login');
     }
 
 }
