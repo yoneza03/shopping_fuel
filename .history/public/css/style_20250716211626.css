@@ -61,21 +61,10 @@
     font-size: 1rem;
 }
 
-.hover-icon {
+#icon-button-group img {
   transition: transform 0.3s ease;
 }
 
-a:hover .hover-icon {
-  transform: scale(1.2);
-}
-
-body {
-  background-color: #f8f9fa; /* Bootstrapのオフホワイト */
-}
-
-.card-section {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+#icon-button-group a:hover img {
+  transform: scale(1.2); /* 画像拡大 */
 }
