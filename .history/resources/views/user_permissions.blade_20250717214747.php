@@ -28,6 +28,9 @@
             <button class="btn btn-primary me-2 mt-4">
               <i class="bi bi-save"></i> 変更を保存
             </button>
+            {{-- <a href="{{ route('home') }}" class="btn btn-secondary">
+              <i class="bi bi-house-door"></i> ホームに戻る
+            </a> --}}
           </form>
         </div>
       </div>

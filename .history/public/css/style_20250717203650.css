@@ -35,7 +35,8 @@
 #result {
   font-size: 1.1rem;
   padding: 0.5rem;
-  border-radius: 5px;
+  /* background: #fef9e7;
+  border-radius: 5px; */
 }
 
 .bg-sunny {
@@ -69,7 +70,7 @@ a:hover .hover-icon {
 }
 
 body {
-  background-color: #d2f4f5; 
+  background-color: #d2f4f5; /* Bootstrapのオフホワイト */
   padding-top: 40px;
   padding-bottom: 20px;
 }
@@ -79,7 +80,4 @@ body {
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0,0,0,0.05);
-}
-nav {
-    background-color: #d2f4f5; 
 }

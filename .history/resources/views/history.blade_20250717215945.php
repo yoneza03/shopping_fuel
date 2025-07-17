@@ -4,7 +4,7 @@
 @section('content')
 
 <form action="{{ route('history.search') }}" method="GET" class="mb-4">
-  <div class="card p-5 mt-5">
+  <div class="card p-3 mt-5">
     <h5>🔍 履歴検索バー</h5>
 
     {{-- 履歴種別選択 --}}

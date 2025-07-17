@@ -6,13 +6,13 @@
 <div class="d-flex">
     <!-- 比較計算フォーム -->
     <div id="comparison-wrapper" class="flex-grow-1">
-        <form id="comparison-form mb-3">
-            <div class="d-flex justify-content-between gap-4 pt-4">
+        <form id="comparison-form">
+            <div class="d-flex justify-content-between gap-4">
                 <!-- 左側入力 -->
                 <div class="form-section">
-                    <input type="number" id="price_left" class="form-control mb-3" placeholder="価格">
-                    <input type="number" id="volume_left" class="form-control mb-3" placeholder="容量">
-                    <select id="unit_left" class="form-select mb-3">
+                    <input type="number" id="price_left" class="form-control mb-2" placeholder="価格">
+                    <input type="number" id="volume_left" class="form-control mb-2" placeholder="容量">
+                    <select id="unit_left" class="form-select mb-2">
                         <option value="g">g</option>
                         <option value="kg">kg</option>
                         <option value="ml">ml</option>
@@ -29,9 +29,9 @@
 
                 <!-- 右側入力 -->
                 <div class="form-section">
-                    <input type="number" id="price_right" class="form-control mb-3" placeholder="価格">
-                    <input type="number" id="volume_right" class="form-control mb-3" placeholder="容量">
-                    <select id="unit_right" class="form-select mb-3">                  
+                    <input type="number" id="price_right" class="form-control mb-2" placeholder="価格">
+                    <input type="number" id="volume_right" class="form-control mb-2" placeholder="容量">
+                    <select id="unit_right" class="form-select mb-2">                  
                         <option value="g">g</option>
                         <option value="kg">kg</option>
                         <option value="ml">ml</option>
@@ -58,7 +58,7 @@
             <!-- ボタン群：カメラ／買い物／燃費／履歴 -->
             <div class="mt-4 w-100 d-flex justify-content-around align-items-center" id="icon-button-group">
                 <a href="{{ route('camera.start') }}" class="text-center text-decoration-none">
-                    <img src="{{ asset('images/camera.png') }}" alt="カメラ" class="hover-icon" width="52">
+                    <img src="{{ asset('images/camera.png') }}" alt="カメラ" class="hover-icon" width="48">
                     <div class="small">レシート撮影</div>
                 </a>
                 <a href="{{ route('shopping.entry') }}" class="text-center text-decoration-none">
@@ -66,7 +66,7 @@
                     <div class="small">買い物データ</div>
                 </a>
                 <a href="{{ route('fuel.entry') }}" class="text-center text-decoration-none">
-                    <img src="{{ asset('images/fuel.png') }}" alt="燃費" class="hover-icon" width="60">
+                    <img src="{{ asset('images/fuel.png') }}" alt="燃費" class="hover-icon" width="56">
                     <div class="small">燃費記録</div>
                 </a>
                 <a href="{{ route('history.search') }}" class="text-center text-decoration-none">

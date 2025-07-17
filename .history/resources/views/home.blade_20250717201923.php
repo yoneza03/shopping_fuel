@@ -6,8 +6,8 @@
 <div class="d-flex">
     <!-- 比較計算フォーム -->
     <div id="comparison-wrapper" class="flex-grow-1">
-        <form id="comparison-form mb-3">
-            <div class="d-flex justify-content-between gap-4 pt-4">
+        <form id="comparison-form">
+            <div class="d-flex justify-content-between gap-4">
                 <!-- 左側入力 -->
                 <div class="form-section">
                     <input type="number" id="price_left" class="form-control mb-3" placeholder="価格">

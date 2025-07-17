@@ -8,7 +8,6 @@
     'view' => '閲覧のみ',
   ];
 @endphp
-<h3 class="mb-4 text-center">ユーザー 一覧</h3>
 <div class="container mt-5 mb-4"> 
   <table class="table table-striped">
     <thead>

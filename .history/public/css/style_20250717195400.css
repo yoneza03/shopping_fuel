@@ -35,6 +35,7 @@
 #result {
   font-size: 1.1rem;
   padding: 0.5rem;
+  /* background: #fef9e7; */
   border-radius: 5px;
 }
 
@@ -69,17 +70,12 @@ a:hover .hover-icon {
 }
 
 body {
-  background-color: #d2f4f5; 
-  padding-top: 40px;
-  padding-bottom: 20px;
+  background-color: #c2e8e9; /* Bootstrapのオフホワイト */
 }
 
 .card-section {
-  background-color: rgb(255, 255, 255);
+  background-color: white;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0,0,0,0.05);
-}
-nav {
-    background-color: #d2f4f5; 
 }
