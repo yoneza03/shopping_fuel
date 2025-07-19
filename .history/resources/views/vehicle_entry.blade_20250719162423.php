@@ -36,11 +36,7 @@
   <h4 class="mb-2">登録済み車種一覧</h4>
   @if ($vehicles->count())
     <table class="table table-bordered">
-    <thead class="table-head-style">
-      <tr>
-        <th>ID</th><th>車種名</th><th>メーカー</th><th>年式</th><th>操作</th>
-      </tr>
-    </thead>
+      <thead><tr><th>ID</th><th>車種名</th><th>メーカー</th><th>年式</th><th>操作</th></tr></thead>
       <tbody>
         @foreach ($vehicles as $v)
           <tr>
@@ -50,7 +46,7 @@
             <td>{{ $v->year ?? '—' }}</td>
             <td class="text-center">
               <div class="d-flex justify-content-center">
-                <a href="{{ route('vehicle.edit', $v->id) }}" class="btn btn-sm btn-warning me-4">編集</a>
+                <a href="{{ route('vehicle.edit', $v->id) }}" class="btn btn-sm btn-warning me-2">編集</a>
 
                 <form action="{{ route('vehicle.destroy', $v->id) }}" method="POST" style="display:inline-block;">
                   @csrf

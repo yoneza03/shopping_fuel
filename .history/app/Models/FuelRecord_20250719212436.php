@@ -13,7 +13,6 @@ class FuelRecord extends Model
         'distance',
         'fuel_efficiency',
         'recorded_at', 
-        'updated_at',
     ];
 
         

@@ -12,6 +12,7 @@
           <tbody>
             @foreach ($records as $r)
               <tr>
+                <td>{{ $r->recorded_at->format('Y-m-d') }}</td>
                 <td>{{ optional($r->recorded_at)->format('Y-m-d') ?? '未記録' }}</td>
                 <td>{{ $r->distance }} km</td>
                 <td>{{ $r->fuel_amount }} L</td>

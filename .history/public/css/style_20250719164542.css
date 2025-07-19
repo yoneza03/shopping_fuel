@@ -84,7 +84,7 @@ body {
     background-color: #d2f4f5; 
 }
 
-.table-head-style th {
-  background-color: #2c3e50;
+.table-head-style {
+  background-color: #2c3e50; /* 濃い青グレーなどがおすすめ */
   color: white;
 }

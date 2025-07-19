@@ -12,10 +12,8 @@ class FuelRecord extends Model
         'fuel_amount',
         'distance',
         'fuel_efficiency',
-        'recorded_at', 
-        'updated_at',
+        'recorded_at',
     ];
-
         
     // Vehicleとのリレーション
     public function vehicle()

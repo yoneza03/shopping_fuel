@@ -36,11 +36,7 @@
   <h4 class="mb-2">登録済み車種一覧</h4>
   @if ($vehicles->count())
     <table class="table table-bordered">
-    <thead class="table-head-style">
-      <tr>
-        <th>ID</th><th>車種名</th><th>メーカー</th><th>年式</th><th>操作</th>
-      </tr>
-    </thead>
+    <thead class="table-head-style"><tr><th>ID</th><th>車種名</th><th>メーカー</th><th>年式</th><th>操作</th></tr></thead>
       <tbody>
         @foreach ($vehicles as $v)
           <tr>

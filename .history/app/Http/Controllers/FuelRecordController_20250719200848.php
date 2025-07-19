@@ -36,7 +36,7 @@ class FuelRecordController extends Controller
             'fuel_amount' => $request->fuel_amount,
             'distance' => $request->distance,
             'fuel_efficiency' => round($efficiency, 2),
-            'recorded_at' => $request->date,
+            'created_at' => $request->date,
             'updated_at' => now()
         ]);
 
@@ -50,7 +50,7 @@ class FuelRecordController extends Controller
         $records = FuelRecord::when($vehicle_id, function ($q) use ($vehicle_id) {
             $q->where('vehicle_id', $vehicle_id);
         })->orderBy('created_at')->get();   
-
+           
         // 車種名の取得
         $vehicle_name = Vehicle::find($vehicle_id)?->name ?? '指定なし';
 
