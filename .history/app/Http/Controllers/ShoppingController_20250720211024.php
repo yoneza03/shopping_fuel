@@ -7,7 +7,6 @@ use App\Models\ShoppingRecord;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Log;
 
 class ShoppingController extends Controller
 {
@@ -36,13 +35,8 @@ class ShoppingController extends Controller
 
             \Log::debug('OCRに渡す実パス: ' . $fullPath);
 
-            \Log::debug('📸 Intervention画像読み込み開始');
             // $image = Image::make($fullPath);
-
-            // \Log::debug('📸 Intervention画像リサイズ開始');
             // if ($image->width() < 1000) {
-            //     \Log::debug('📸 リサイズ完了 → OCR開始');
-
             //     $image->resize(1600, null, function ($constraint) {
             //         $constraint->aspectRatio(); // 縦横比を維持して拡大
             //     });

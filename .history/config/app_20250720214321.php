@@ -125,7 +125,5 @@ return [
 
     'aliases' => [
     'Image' => Intervention\Image\Facades\Image::class,
-    'Auth' => Illuminate\Support\Facades\Auth::class,
     ],
-    
 ];

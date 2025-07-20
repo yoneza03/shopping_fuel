@@ -10,14 +10,14 @@
       <a href="{{ route('home') }}" class="btn btn-primary">ホームへ戻る</a>
     @endif
 
-    @if(Auth::check())
+    {{-- @if(Auth::check())
       <form action="{{ route('logout') }}" method="POST" style="display: inline;">
         @csrf
         <button type="submit" class="btn btn-danger">ログアウト</button>
       </form>
 
       <span class="me-2">ようこそ、{{ Auth::user()->name }} さん</span>
-    @endif
+    @endif --}}
   </div>
 </header>
 

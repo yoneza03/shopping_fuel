@@ -1,9 +1,8 @@
 <header class="d-flex justify-content-between align-items-center p-3 bg-light">
   <a href="{{ route('login') }}">
     <img src="{{ asset('images/logo.png') }}" alt="ロゴ" class="logo">
+    <p>買物サポートと燃費計算</p>
   </a>
-  <p>買物サポートと燃費計算</p>
-
 
   <div class="d-flex align-items-center gap-2">
     @if (!request()->routeIs('home') && !request()->routeIs('login'))

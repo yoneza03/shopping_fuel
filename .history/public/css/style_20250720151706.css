@@ -80,10 +80,16 @@ body {
   box-shadow: 0 0 12px rgba(0,0,0,0.1);
 }
 
-h2 {
-  color: #2c3e50;
-  font-weight: 600;
+/* .form-control {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
 }
+
+.form-control:focus {
+  border-color: #66afe9;
+  box-shadow: 0 0 4px rgba(102, 175, 233, 0.6);
+} */
 
 .register-card {
   background-color: white;

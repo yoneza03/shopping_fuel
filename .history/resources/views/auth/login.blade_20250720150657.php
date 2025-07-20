@@ -5,6 +5,7 @@
 @section('content')
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="login-card"> 
+
             <div class="border rounded p-4 shadow text-center" style="width: 400px;">
                 @if (session('success'))
                     <div class="alert alert-success text-center">
@@ -30,12 +31,12 @@
 
                     <!-- パスワードリセット -->
                     <div class="mb-3">
-                        <a href="{{ route('password.reset') }}" class="btn btn-outline-warning w-100">パスワードを忘れた方</a>
+                        <a href="{{ route('password.reset') }}" class="btn btn-outline-primary w-100">パスワードを忘れた方</a>
                     </div>
 
                     <!-- 新規登録 -->
                     <div class="mb-4">
-                        <a href="{{ route('register') }}" class="btn btn-outline-success w-100">新規登録</a>
+                        <a href="{{ route('register') }}" class="btn btn-outline-primary w-100">新規登録</a>
                     </div>
 
                     <!-- ログインボタン -->

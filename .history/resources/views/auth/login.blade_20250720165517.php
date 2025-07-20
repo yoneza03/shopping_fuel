@@ -3,6 +3,7 @@
 @section('title', 'ログイン')
 
 @section('content')
+<h1 class="mb-4">買物サポートと燃費計算</h1>
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="login-card"> 
             <div class="border rounded p-4 shadow text-center" style="width: 400px;">

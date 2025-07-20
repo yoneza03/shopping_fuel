@@ -7,7 +7,6 @@ use App\Models\ShoppingRecord;
 use thiagoalessio\TesseractOCR\TesseractOCR;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Log;
 
 class ShoppingController extends Controller
 {
