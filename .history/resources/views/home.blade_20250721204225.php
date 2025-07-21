@@ -13,7 +13,6 @@
                     <input type="number" id="price_left" class="form-control mb-3" placeholder="価格">
                     <input type="number" id="volume_left" class="form-control mb-3" placeholder="容量">
                     <select id="unit_left" class="form-select mb-3">
-                        <option value="g">個</option>
                         <option value="g">g</option>
                         <option value="kg">kg</option>
                         <option value="ml">ml</option>
@@ -33,7 +32,6 @@
                     <input type="number" id="price_right" class="form-control mb-3" placeholder="価格">
                     <input type="number" id="volume_right" class="form-control mb-3" placeholder="容量">
                     <select id="unit_right" class="form-select mb-3">                  
-                        <option value="g">個</option>
                         <option value="g">g</option>
                         <option value="kg">kg</option>
                         <option value="ml">ml</option>

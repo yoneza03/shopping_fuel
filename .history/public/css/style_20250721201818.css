@@ -119,10 +119,3 @@ h2 {
   background-color: #2c3e50;
   color: white;
 }
-
-@media (max-width: 768px) {
-  canvas {
-    margin: 0 auto;
-    display: block;
-  }
-}

@@ -34,27 +34,27 @@ class ShoppingController extends Controller
             $uploaded->move($publicTmpPath, $filename);
             $fullPath = $publicTmpPath . '/' . $filename;
 
-            Log::debug('OCRに渡す実パス: ' . $fullPath);
+            \Log::debug('OCRに渡す実パス: ' . $fullPath);
 
-            // Log::debug('📸 Intervention画像読み込み開始');
-            // $image = Image::make($fullPath);
+            \Log::debug('📸 Intervention画像読み込み開始');
+            $image = Image::make($fullPath);
 
-            // Log::debug('📸 Intervention画像リサイズ開始');
-            // if ($image->width() < 1000) {
-            //     Log::debug('📸 リサイズ完了 → OCR開始');
+            \Log::debug('📸 Intervention画像リサイズ開始');
+            if ($image->width() < 1000) {
+                \Log::debug('📸 リサイズ完了 → OCR開始');
 
-            //     $image->resize(1600, null, function ($constraint) {
-            //         $constraint->aspectRatio(); // 縦横比を維持して拡大
-            //     });
-            //     $image->save($fullPath); // 上書き保存
-            // }
+                $image->resize(1600, null, function ($constraint) {
+                    $constraint->aspectRatio(); // 縦横比を維持して拡大
+                });
+                $image->save($fullPath); // 上書き保存
+            }
 
             $ocrText = (new TesseractOCR($fullPath))
               ->lang('jpn')
               ->psm(4)     // ページ分割モード（4は複数行に強い）
               ->oem(1)     // OCRエンジンモード（LSTMベース）
               ->run();  
-            Log::debug('📦 OCR結果: ' . $ocrText);
+            \Log::debug('📦 OCR結果: ' . $ocrText);
             
             //  OCR結果をパース（必要に応じて parseReceipt メソッドを用意）
             $parsed = $this->parseReceipt($ocrText);
@@ -139,7 +139,7 @@ class ShoppingController extends Controller
                 }
 
                 if ($price && strlen($name) >= 4 && !preg_match('/^[¥\d\s\W]+$/u', $name)) {
-                    Log::debug('📦 商品候補:', ['line' => $lineClean, 'name' => $name, 'price' => $price]);
+                    \Log::debug('📦 商品候補:', ['line' => $lineClean, 'name' => $name, 'price' => $price]);
 
                     $items[] = [
                         'name' => $name,
@@ -204,11 +204,11 @@ class ShoppingController extends Controller
         // 検索条件がある場合はフィルタリング
         if ($request->filled('store')) {
 
-             Log::debug('🏬 店舗フィルター:', ['store' => $request->input('store')]);
+             \Log::debug('🏬 店舗フィルター:', ['store' => $request->input('store')]);
 
             $history = $history->filter(function ($entry) use ($request) {
 
-                Log::debug('🏪 比較中の店舗名:', ['entry_store' => $entry->store]);
+                \Log::debug('🏪 比較中の店舗名:', ['entry_store' => $entry->store]);
 
                 return str_contains($entry->store, $request->input('store'));
             });
@@ -217,12 +217,12 @@ class ShoppingController extends Controller
         if ($request->filled('item_keyword')) {
             $keyword = $request->input('item_keyword');
 
-            Log::debug('🔍 商品キーワード:', ['keyword' => $keyword]);
+            \Log::debug('🔍 商品キーワード:', ['keyword' => $keyword]);
 
             $history = $history->filter(function ($entry) use ($keyword) {
                 $items = is_array($entry->items) ? $entry->items : json_decode($entry->items, true);
 
-                Log::debug('📦 商品一覧（decode後）:', ['items' => $items]);
+                \Log::debug('📦 商品一覧（decode後）:', ['items' => $items]);
 
                 return collect($items)->contains(function ($item) use ($keyword) {
                     return 
@@ -236,13 +236,13 @@ class ShoppingController extends Controller
             $from = $request->input('date_from');
             $to = $request->input('date_to');
 
-            Log::debug('📅 入力された日付フィルター:', ['from' => $from, 'to' => $to]);
+            \Log::debug('📅 入力された日付フィルター:', ['from' => $from, 'to' => $to]);
 
 
             $history = $history->filter(function ($entry) use ($from, $to) {
                 $entryDate = \Carbon\Carbon::parse($entry->date)->format('Y-m-d');
 
-                Log::debug('📜 レコード日付:', ['entry_date' => $entryDate]);
+                \Log::debug('📜 レコード日付:', ['entry_date' => $entryDate]);
 
                 if ($from && $entryDate < $from) return false;
                 if ($to && $entryDate > $to) return false;
