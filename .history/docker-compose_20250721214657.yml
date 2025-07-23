@@ -71,6 +71,6 @@ services:
       - 4040:80
     volumes:
       - ./phpmyadmin/sessions:/sessions
-      # - ./app:/var/www/html
-      # - ./db-data:/var/lib/mysql
+      - ./app:/var/www/html
+      - ./db-data:/var/lib/mysql
     

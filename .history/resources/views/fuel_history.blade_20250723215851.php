@@ -46,10 +46,6 @@
       <h4>📈 燃費グラフ</h4>
       <canvas id="fuelChart" height="200"></canvas>
     </div>
-    <div class="col-12 col-md-6">
-      <h4>⛽ ガソリン単価グラフ</h4>
-      <canvas id="priceChart" height="200"></canvas>
-    </div>
   </div>
 </div>
 
@@ -59,7 +55,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const labels = @json($labels);
   const data = @json($efficiencies);
-  const priceData = @json($records->pluck('fuel_price'));
 
   new Chart(document.getElementById('fuelChart'), {
     type: 'line',
@@ -80,30 +75,6 @@ document.addEventListener('DOMContentLoaded', function () {
         title: {
           display: true,
           text: '{{ $vehicle_name }} の燃費推移'
-        }
-      }
-    }
-  });
-
-  new Chart(document.getElementById('priceChart'), {
-    type: 'line',
-    data: {
-      labels: priceLabels,
-      datasets: [{
-        label: '単価 (円/L)',
-        data: priceData,
-        borderColor: 'rgba(54, 162, 235, 1)',
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        tension: 0.4,
-        pointRadius: 4
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: '{{ $vehicle_name }} のガソリン単価推移'
         }
       }
     }
