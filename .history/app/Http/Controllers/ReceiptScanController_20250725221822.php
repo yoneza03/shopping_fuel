@@ -43,13 +43,13 @@ class ReceiptScanController extends Controller
         $processedPath = public_path('storage/receipts/' . $processedName);
         
         // 前処理　色反転
-        ImageProcessor::negate($originalPath, $processedPath);
+        ImageProcessor::negate($sourcePath, $outputPath);
 
         // OCR実行（反転後の画像を使用）
         $text = (new TesseractOCR($processedPath))
                     ->lang('jpn')  // 日本語の場合
                     ->run();
-
+                    
         // ここで買い物データ入力画面へ画像を渡す
         return view('shopping_confirm', [
             'imagePath' => $imagePath,

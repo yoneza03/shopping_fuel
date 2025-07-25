@@ -8,8 +8,6 @@ use thiagoalessio\TesseractOCR\TesseractOCR;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Log;
-use App\Utils\ImageProcessor;
-
 
 class ShoppingController extends Controller
 {
@@ -40,7 +38,10 @@ class ShoppingController extends Controller
 
             // 色反転（または他の前処理）
             $processedPath = $publicTmpPath . '/processed_' . $filename;
-            ImageProcessor::negate($fullPath, $processedPath);
+            $image = imagecreatefrompng($fullPath);
+            imagefilter($image, IMG_FILTER_NEGATE);
+            imagepng($image, $processedPath);
+            imagedestroy($image);
 
             // Log::debug('📸 Intervention画像読み込み開始');
             // $image = Image::make($fullPath);

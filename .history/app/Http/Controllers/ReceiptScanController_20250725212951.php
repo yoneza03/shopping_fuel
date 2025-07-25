@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use thiagoalessio\TesseractOCR\TesseractOCR;
-use App\Utils\ImageProcessor;
-
 
 class ReceiptScanController extends Controller
 {
@@ -38,18 +36,16 @@ class ReceiptScanController extends Controller
     public function confirm(Request $request)
     {
         $imagePath = $request->input('image_path');
-        $originalPath = public_path($imagePath);
-        $processedName = 'processed_' . basename($imagePath);
-        $processedPath = public_path('storage/receipts/' . $processedName);
-        
-        // 前処理　色反転
-        ImageProcessor::negate($originalPath, $processedPath);
 
-        // OCR実行（反転後の画像を使用）
-        $text = (new TesseractOCR($processedPath))
+        $image = imagecreatefrompng($sourcePath); // JPEGなら imagecreatefromjpeg
+        imagefilter($image, IMG_FILTER_NEGATE);
+
+        imagepng($image, $outputPath); // 保存先
+        imagedestroy($image);
+        
+        $text = (new TesseractOCR(public_path($imagePath)))
                     ->lang('jpn')  // 日本語の場合
                     ->run();
-
         // ここで買い物データ入力画面へ画像を渡す
         return view('shopping_confirm', [
             'imagePath' => $imagePath,
