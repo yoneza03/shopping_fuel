@@ -23,7 +23,6 @@ use App\Http\Controllers\ReceiptController;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Response;
 
-// 検証用
 Route::get('/test-image', function () {
     $image = Image::canvas(300, 200, '#ffcc00')->text('Hello Laravel', 150, 100, function ($font) {
         $font->file(public_path('fonts/OpenSans-Regular.ttf'));
@@ -55,7 +54,7 @@ Route::get('/shared', [SharedController::class, 'index']);
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.post');
 Route::post('/register/confirm', [RegisterController::class, 'confirm'])->name('register.confirm');
-Route::get('/register/confirm', [RegisterController::class, 'confirm']);
+Route::get('/register/confirm', [RegisterController::class, 'confirm'])->name('register.confirm');
 
 Route::get('/password-reset', [PasswordResetController::class, 'showRequestForm'])->name('password.reset');
 Route::post('/password-reset', [PasswordResetController::class, 'sendResetLink'])->name('password.reset.send');
