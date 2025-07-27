@@ -38,12 +38,12 @@
   <div class="d-flex justify-content-between mt-4">
     <form action="{{ route('shopping.store') }}" method="POST">
       @csrf
-      @if(empty($data['date']) || empty($data['store']))
-        <button type="submit" class="btn btn-secondary" disabled>日付または店舗名未入力</button>
-      @else
-        <textarea name="ocrText" style="display:none;">{{ $data['ocrText'] ?? '' }}</textarea>
-        <button type="submit" class="btn btn-success">登録</button>
-      @endif
+    @if(empty($data['date']))
+      <button type="submit" class="btn btn-secondary" disabled>日付未入力</button>
+    @else
+      <textarea name="ocrText" style="display:none;">{{ $data['ocrText'] ?? '' }}</textarea>
+      <button type="submit" class="btn btn-success">登録</button>
+    @endif
     </form>
 
     <form action="{{ route('shopping.entry') }}" method="GET">

@@ -63,22 +63,7 @@ class ShoppingController extends Controller
                 $image->save($fullPath); // 上書き保存
             }
 
-            // 🔁 TesseractのOCRを直接実行（shell_exec）
-            $lang = $isVertical ? 'jpn_vert' : 'jpn';
-            $command = "tesseract \"{$enhancedPath}\" stdout -l {$lang} --oem 1 --psm 6";
-            // $ocrText = shell_exec($command);
-
-            //  OCR実行前に比較ループでログ出力
-            // psmが安定が分かったら不要コードにする
-            foreach ([4, 6, 11] as $psm) {
-                $text = (new TesseractOCR($enhancedPath))
-                    ->lang('jpn')
-                    ->psm($psm)
-                    ->oem(3)
-                    ->run();
-                Log::debug("📋 PSM{$psm}結果: " . $text);
-}
-
+            
             $ocrText = (new TesseractOCR($enhancedPath))
               ->lang('jpn')
               ->psm(4)     
@@ -130,19 +115,9 @@ class ShoppingController extends Controller
             }
 
             //  除外ワードチェック（TELなど含む）
-            $lineClean = mb_convert_kana(trim($line), 'as'); // 全角数字・英字→半角（既に実装済みですね！）
-            $normalizedLine = preg_replace('/\s+/u', '', $lineClean); // スペース削除で崩れ防止
             $skip = false;
-
-            $cropped = cropDateArea($enhancedPath);
-            $ocrText = (new TesseractOCR($cropped))
-                ->lang('jpn')
-                ->psm(7) // ← 単一行モード
-                ->oem(3)
-                ->run();
-    
             foreach ($excludeKeywords as $word) {
-                if (mb_stripos($normalizedLine, $word) !== false) {
+                if (stripos($lineClean, $word) !== false) {
                     $skip = true;
                     break;
                 }
@@ -150,7 +125,7 @@ class ShoppingController extends Controller
             if ($skip) continue;
 
             if ($date === '') {
-                // 日付（2025/07/25 等）
+                // 通常の形式（2025/07/25 等）
                 if (preg_match('/(\d{4})\D{0,3}(\d{1,2})\D{0,3}(\d{1,2})/', $lineClean, $match)) {
                     $y = intval($match[1]);
                     $m = intval($match[2]);
@@ -194,14 +169,6 @@ class ShoppingController extends Controller
                 $priceRaw = str_replace([' ', ',', 'g'], '', $match[2]); // 誤認文字を除去
                 $price = preg_replace('/[^0-9\.]/', '', $priceRaw); // 数字以外を除去
                 $price = is_numeric($price) ? floatval($price) : null;
-
-                $cropped = cropProductNameArea($enhancedPath); // ← Interventionなどで事前に切り出し
-                $ocrText = (new TesseractOCR($cropped))
-                    ->lang('jpn')
-                    ->psm(4)
-                    ->oem(3)
-                    ->config('preserve_interword_spaces', '1')
-                    ->run();
 
                 $invalidWords = [
                     '小計', '合計', '外税', '消費税', '軽減税率', '預り', 'お釣り', 'カード', '控え', '番号', 'FAX',
@@ -263,11 +230,10 @@ class ShoppingController extends Controller
             'items' => $data['items'],
         ]);
         
-        if (empty($data['date']) || empty($data['store'])) {
+        if (empty($data['date'])) {
             return redirect()->route('shopping.confirm.view')
-                ->with('error', '日付または店舗名が未入力のため登録できませんでした。もう一度ご確認ください。');
+                ->with('error', '日付が未入力のため登録できませんでした。もう一度ご確認ください。');
         }
-
         session()->forget('shopping');
         return redirect()->route('shopping.entry')->with('success', '登録完了しました');
     }
