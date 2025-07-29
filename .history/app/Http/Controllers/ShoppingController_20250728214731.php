@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Log;
 use App\Utils\ImageProcessor;
-use App\Services\ReceiptImageService;
 
 
 class ShoppingController extends Controller
@@ -47,22 +46,10 @@ class ShoppingController extends Controller
             ImageProcessor::enhance($fullPath, $enhancedPath);
 
             // 領域を切り出して精度を高める
-            $imageService = app(ReceiptImageService::class);
+            $croppedPath = app(ReceiptImageService::class)
+                ->prepareForOCR($enhancedPath);
 
-            // 商品名領域切り出し
-            $enhancedImage = Image::make($enhancedPath);
-            $productImage = $imageService->cropProductNameArea($enhancedImage);
-            $productPath = public_path('tmp/cropped_product_' . uniqid() . '.jpg');
-            $productImage->save($productPath);
 
-            // 日付領域切り出し（Image型受け渡し）
-            $dateImage = $imageService->cropDateArea($enhancedImage);
-            $datePath = public_path('tmp/cropped_date_' . uniqid() . '.jpg');
-            $dateImage->save($datePath);
-
-            Log::debug('✂️ 商品領域保存: ' . $productPath);
-            Log::debug('🗓️ 日付領域保存: ' . $datePath);
-            
             Log::debug('📸 Intervention画像読み込み開始');
             $image = Image::make($fullPath)
                 ->resize(1200, null)         // 横解像度アップで文字の明瞭さ向上

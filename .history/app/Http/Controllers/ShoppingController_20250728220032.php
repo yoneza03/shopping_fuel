@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Log;
 use App\Utils\ImageProcessor;
-use App\Services\ReceiptImageService;
 
 
 class ShoppingController extends Controller

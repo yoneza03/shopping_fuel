@@ -1,5 +1,5 @@
 # docker-composeのバージョン指定
-# version: '3.8'
+version: '3.8'
 
 # コンテナ群の記述
 services:
@@ -12,7 +12,7 @@ services:
     # 同期ファイルの指定
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d
-      - ./public:/var/www/html/public:rw     
+      - /mnt/c/Users/7064t/app/public:/var/www/html/public:rw
       # - C:/Users/7064t/app/public:/var/www/html/public
       # - ./app/public:/var/www/html/public
 

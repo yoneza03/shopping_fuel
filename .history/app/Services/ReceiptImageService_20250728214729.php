@@ -23,10 +23,12 @@ class ReceiptImageService
         $cropW = intval($width * 0.9);  // 幅の90%
         $cropH = intval($height * 0.5); // 高さの50%
 
+        $croppedPath = public_path('tmp/cropped_product_' . uniqid() . '.jpg');
+        $image->crop($cropW, $cropH, $cropX, $cropY)->save($croppedPath);
 
         Log::debug('✂️ 商品領域切り出し完了: ' . $croppedPath);
 
-        return $image->crop($cropW, $cropH, $cropX, $cropY);   
+        return $croppedPath;
     }
     
     // 商品名領域＋日付領域をまとめて抽出に活用
@@ -47,7 +49,7 @@ class ReceiptImageService
         $cropWidth = intval($width * 0.48); // ほぼ右半分
         $cropHeight = intval($height * 0.10); // 上部10%
 
-        Log::debug('🗓️ 日付領域切り出し完了');
+        Log::debug('🗓️ 日付領域切り出し完了: ' . $croppedPath);
         return $image->crop($cropWidth, $cropHeight, $cropX, $cropY);
     }
 }
